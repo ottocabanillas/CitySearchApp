@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct CitySearchAppApp: App {
+    @StateObject private var orientationObserver = OrientationObserver()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(orientationObserver)
         }
     }
 }
