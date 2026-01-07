@@ -34,7 +34,7 @@ struct CityCellView: View {
                     .foregroundColor(.blue)
             }
             Button(action: {}) {
-                Image(systemName: "heart.fill")
+                Image(systemName: "heart")
                     .foregroundColor(.red)
             }
         }

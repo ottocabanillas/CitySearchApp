@@ -25,12 +25,9 @@ struct CityListView: View {
         VStack(spacing: 0){
             VStack {
                 Toggle("Show only favorites", isOn: $viewModel.showFavoritesOnly)
-                    .padding(.vertical, 7)
-                    .padding(.horizontal, 16)
+                    .padding()
                     .background(Color(.systemGray3))
-                    .cornerRadius(16)
             }
-            .padding(.vertical, 1)
             listView
         }
         .background(Color(.systemGray5))
@@ -38,7 +35,7 @@ struct CityListView: View {
     
     private var listView: some View {
         List(viewModel.displayedCities) { city in
-            Text(city.name)
+            CityCellView(viewModel: CityCellViewModel(city: city))
         }
         .listStyle(.plain)
     }
