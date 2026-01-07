@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CityListView: View {
     @StateObject private var viewModel = CityListViewModel()
+    @State private var selectedCityForDetails: CityModel? = nil
     var onSelectedCity: ((CityModel) -> Void)? = nil
     
     var body: some View {
@@ -18,6 +19,9 @@ struct CityListView: View {
                 placement: .navigationBarDrawer(displayMode: .always),
                 prompt: "Search for a city"
             )
+            .navigationDestination(item: $selectedCityForDetails) { city in
+                CityDetailView(viewModel: .init(city: city))
+            }
     }
     
     private var contentListView: some View {
@@ -38,7 +42,9 @@ struct CityListView: View {
                 viewModel: .init(city: city),
                 onCellTapped: {
                     onSelectedCity?(city)
-                }
+                },
+                onInfoTapped: { selectedCityForDetails = city },
+                onFavoriteTapped: {}
             )
         }
         .listStyle(.plain)
