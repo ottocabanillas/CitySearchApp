@@ -9,16 +9,15 @@ import SwiftUI
 
 struct CityListView: View {
     @StateObject private var viewModel = CityListViewModel()
+    var onSelectedCity: ((CityModel) -> Void)? = nil
     
     var body: some View {
-        NavigationStack {
-            contentListView
-        }
-        .searchable(
-            text: $viewModel.searchText,
-            placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Search for a city"
-        )
+        contentListView
+            .searchable(
+                text: $viewModel.searchText,
+                placement: .navigationBarDrawer(displayMode: .always),
+                prompt: "Search for a city"
+            )
     }
     
     private var contentListView: some View {
@@ -35,12 +34,19 @@ struct CityListView: View {
     
     private var listView: some View {
         List(viewModel.displayedCities) { city in
-            CityCellView(viewModel: CityCellViewModel(city: city))
+            CityCellView(
+                viewModel: .init(city: city),
+                onCellTapped: {
+                    onSelectedCity?(city)
+                }
+            )
         }
         .listStyle(.plain)
     }
 }
 
 #Preview {
-    CityListView()
+    NavigationStack {
+        CityListView()
+    }
 }

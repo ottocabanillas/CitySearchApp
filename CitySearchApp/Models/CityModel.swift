@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CityModel: Codable, Identifiable {
+struct CityModel: Codable, Identifiable, Equatable, Hashable {
     let id: Int
     let name: String
     let countryCode: String
@@ -20,9 +20,25 @@ struct CityModel: Codable, Identifiable {
         case countryCode = "country_code"
         case coordinates = "coord"
     }
+    
+    static func == (lhs: CityModel, rhs: CityModel) -> Bool {
+        lhs.id == rhs.id &&
+        lhs.name == rhs.name &&
+        lhs.countryCode == rhs.countryCode &&
+        lhs.coordinates == rhs.coordinates &&
+        lhs.isFavorite == rhs.isFavorite
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(name)
+        hasher.combine(countryCode)
+        hasher.combine(coordinates)
+        hasher.combine(isFavorite)
+    }
 }
 
-struct Coordinates: Codable {
+struct Coordinates: Codable, Equatable, Hashable {
     let lat: Double
     let lon: Double
 }

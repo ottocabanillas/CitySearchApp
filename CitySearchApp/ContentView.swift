@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var orientationObserver: OrientationObserver
-    let city = CityModel(id: 1, name: "New York", countryCode: "US", coordinates: Coordinates(lat: 40.7128, lon: -74.0060), isFavorite: false)
-    
+    @State private var selectedCity: CityModel? = nil
     
     var body: some View {
         if orientationObserver.isPortrait {
@@ -21,15 +20,40 @@ struct ContentView: View {
     }
     
     private var portraitView: some View {
-        CityListView()
+        NavigationStack {
+            CityListView(onSelectedCity: { city in
+                selectedCity = city
+            })
+            .navigationDestination(item: $selectedCity) { city in
+                MapView(viewModel: MapViewModel(city: city))
+            }
+        }
     }
     
     private var landscapeView: some View {
         HStack {
-            CityListView()
-            MapView(viewModel: .init(city: city))
+            NavigationStack {
+                CityListView(onSelectedCity: { city in
+                    selectedCity = city
+                })
+            }
+            if let city = selectedCity {
+                MapView(viewModel: .init(city: city))
+                    .id(city.id)
+            } else {
+                selectMapView
+            }
         }
         .background(Color(.black))
+    }
+    
+    private var selectMapView: some View {
+        VStack{
+            Text("Select a city to see its\n location on the map.")
+                .font(Font.system(size: 32, weight: .bold))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.white))
     }
 }
 

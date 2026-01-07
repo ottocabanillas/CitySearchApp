@@ -9,10 +9,12 @@ import SwiftUI
 
 struct CityCellView: View {
     let viewModel: CityCellViewModel
+    let onCellTapped: () -> Void
     
     var body: some View {
         HStack {
             descriptionView
+                .onTapGesture { onCellTapped() }
             Spacer()
             buttonsView
         }
@@ -44,6 +46,7 @@ struct CityCellView: View {
 #Preview {
     let city = CityModel(id: 1, name: "New York", countryCode: "US", coordinates: Coordinates(lat: 40.7128, lon: -74.0060), isFavorite: false)
     CityCellView(
-        viewModel: CityCellViewModel(city: city)
+        viewModel: .init(city: city),
+        onCellTapped: { }
     )
 }
