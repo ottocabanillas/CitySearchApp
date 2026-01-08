@@ -5,7 +5,9 @@
 //  Created by Oscar Cabanillas on 07/01/2026.
 //
 
+import Foundation
 import Combine
+
 
 final class CityListViewModel: ObservableObject {
     @Published private(set) var allCities: [CityModel] = [
@@ -19,7 +21,19 @@ final class CityListViewModel: ObservableObject {
     @Published var showFavoritesOnly: Bool = false
     
     var displayedCities: [CityModel] {
-        return allCities
+        let prefix = searchText
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !prefix.isEmpty else {
+            if showFavoritesOnly {
+                return allCities.filter { $0.isFavorite }
+            }
+            return allCities
+        }
+        if showFavoritesOnly {
+            return allCities.filter { $0.isFavorite && $0.name.lowercased().hasPrefix(prefix.lowercased()) }
+        }
+        return allCities.filter { $0.name.lowercased().hasPrefix(prefix.lowercased()) }
     }
 }
 
