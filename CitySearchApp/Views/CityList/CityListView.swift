@@ -14,6 +14,7 @@ struct CityListView: View {
     
     var body: some View {
         contentListView
+            .task { await viewModel.fetchCities()          }
             .searchable(
                 text: $viewModel.searchText,
                 placement: .navigationBarDrawer(displayMode: .always),
@@ -40,9 +41,7 @@ struct CityListView: View {
         List(viewModel.displayedCities) { city in
             CityCellView(
                 viewModel: .init(city: city),
-                onCellTapped: {
-                    onSelectedCity?(city)
-                },
+                onCellTapped: { onSelectedCity?(city) },
                 onInfoTapped: { selectedCityForDetails = city },
                 onFavoriteTapped: { viewModel.toggleFavorite(for: city) }
             )

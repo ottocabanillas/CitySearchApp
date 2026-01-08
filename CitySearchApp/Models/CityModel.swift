@@ -17,7 +17,7 @@ struct CityModel: Codable, Identifiable, Equatable, Hashable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case name
-        case countryCode = "country_code"
+        case countryCode = "country"
         case coordinates = "coord"
     }
     
