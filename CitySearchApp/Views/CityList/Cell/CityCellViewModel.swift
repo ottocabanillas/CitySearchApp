@@ -17,7 +17,10 @@ final class CityCellViewModel {
     }
     
     var isFavorite: Bool {
-        return city.isFavorite
+        if let favorite = city.isFavorite {
+            return favorite
+        }
+        return false
     }
     
     init(city: CityModel) {

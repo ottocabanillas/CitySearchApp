@@ -12,29 +12,22 @@ struct CityModel: Codable, Identifiable, Equatable, Hashable {
     let name: String
     let countryCode: String
     let coordinates: Coordinates
-    var isFavorite: Bool = false
+    var isFavorite: Bool? = false
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case name
         case countryCode = "country"
         case coordinates = "coord"
+        case isFavorite = "isFavorite"
     }
     
     static func == (lhs: CityModel, rhs: CityModel) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.name == rhs.name &&
-        lhs.countryCode == rhs.countryCode &&
-        lhs.coordinates == rhs.coordinates &&
-        lhs.isFavorite == rhs.isFavorite
+        lhs.id == rhs.id 
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
-        hasher.combine(name)
-        hasher.combine(countryCode)
-        hasher.combine(coordinates)
-        hasher.combine(isFavorite)
     }
 }
 

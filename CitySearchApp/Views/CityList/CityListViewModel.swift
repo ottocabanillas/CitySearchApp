@@ -37,6 +37,7 @@ extension CityListViewModel {
             let sortedCities = fetchedCities.sorted { ($0.name, $0.countryCode) < ($1.name, $1.countryCode) }
             await MainActor.run {
                 self.allCities = sortedCities
+                self.syncFavorites()
             }
         } catch {
             print("Error fetching cities: \(error)")
@@ -47,10 +48,10 @@ extension CityListViewModel {
 //MARK: - Favorites methods
 extension CityListViewModel {
     func toggleFavorite(for city: CityModel) {
-        if let indexInFavs = favCities.firstIndex(where: { $0.id == city.id }) {
+        if let indexInFavs = favCities.binarySearchIndex(city) {
             favCities.remove(at: indexInFavs)
             
-            if let indexInAll = allCities.firstIndex(where: { $0.id == city.id }) {
+            if let indexInAll = allCities.binarySearchIndex(city) {
                 allCities[indexInAll].isFavorite = false
             }
         } else {
@@ -58,12 +59,20 @@ extension CityListViewModel {
             updatedCity.isFavorite = true
             favCities.append(updatedCity)
             
-            if let indexInAll = allCities.firstIndex(where: { $0.id == city.id }) {
+            if let indexInAll = allCities.binarySearchIndex(city) {
                 allCities[indexInAll].isFavorite = true
             }
         }
         
         saveFavCities()
+    }
+    
+    func syncFavorites() {
+        for fav in favCities {
+            if let idx = allCities.binarySearchIndex(fav) {
+                allCities[idx].isFavorite = true
+            }
+        }
     }
 }
 
@@ -106,7 +115,6 @@ extension CityListViewModel {
     private func loadFavCities() {
         do {
             favCities = try storage.load([CityModel].self)
-            print(favCities)
         } catch {
             print("Failed to load favorite cities:", error)
         }
@@ -118,5 +126,28 @@ extension CityListViewModel {
         } catch {
             print("Failed to save favorite cities:", error)
         }
+    }
+}
+
+
+extension Array where Element == CityModel {
+    func binarySearchIndex(_ targetCity: CityModel) -> Int? {
+        var low = 0
+        var high = count - 1
+
+        while low <= high {
+            let mid = low + (high - low) / 2
+            let midName = self[mid].name
+            let midCountry = self[mid].countryCode
+
+            if (midName, midCountry) == (targetCity.name, targetCity.countryCode) {
+                return mid
+            } else if (midName, midCountry) < (targetCity.name, targetCity.countryCode) {
+                low = mid + 1
+            } else {
+                high = mid - 1
+            }
+        }
+        return nil
     }
 }
