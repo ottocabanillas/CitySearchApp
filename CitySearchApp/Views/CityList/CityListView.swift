@@ -44,7 +44,7 @@ struct CityListView: View {
                     onSelectedCity?(city)
                 },
                 onInfoTapped: { selectedCityForDetails = city },
-                onFavoriteTapped: {}
+                onFavoriteTapped: { viewModel.toggleFavorite(for: city) }
             )
         }
         .listStyle(.plain)

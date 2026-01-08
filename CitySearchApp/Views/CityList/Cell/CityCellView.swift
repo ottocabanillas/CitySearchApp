@@ -43,7 +43,7 @@ struct CityCellView: View {
             }
             .buttonStyle(.plain)
             Button(action: onFavoriteTapped) {
-                Image(systemName: "heart")
+                Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
                     .resizable()
                     .foregroundColor(.red)
                     .frame(width: 24, height: 24)

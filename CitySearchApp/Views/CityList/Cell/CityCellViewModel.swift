@@ -16,6 +16,10 @@ final class CityCellViewModel {
         return "Lat: \(city.coordinates.lat), Lon: \(city.coordinates.lon)"
     }
     
+    var isFavorite: Bool {
+        return city.isFavorite
+    }
+    
     init(city: CityModel) {
         self.city = city
     }

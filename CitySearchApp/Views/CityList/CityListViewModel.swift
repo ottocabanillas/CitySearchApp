@@ -14,10 +14,19 @@ final class CityListViewModel: ObservableObject {
         CityModel(id: 3, name: "Los Angeles", countryCode: "US", coordinates: Coordinates(lat: 34.0522, lon: -118.2437), isFavorite: false),
         CityModel(id: 5, name: "Phoenix", countryCode: "US", coordinates: Coordinates(lat: 33.4484, lon: -112.0740), isFavorite: false),
     ]
+    
     @Published var searchText: String = ""
     @Published var showFavoritesOnly: Bool = false
     
     var displayedCities: [CityModel] {
         return allCities
+    }
+}
+
+extension CityListViewModel {
+    func toggleFavorite(for city: CityModel) {
+        if let indexInAllCities = allCities.firstIndex(where: { $0.id == city.id }) {
+            allCities[indexInAllCities].isFavorite.toggle()
+        }
     }
 }
