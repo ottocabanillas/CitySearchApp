@@ -8,7 +8,6 @@
 import Combine
 import SwiftUI
 
-
 final class CityListViewModel: ObservableObject {
     @Published private(set) var displayedCities: [CityModel] = []
     @Published private(set) var allCities: [CityModel] = []
