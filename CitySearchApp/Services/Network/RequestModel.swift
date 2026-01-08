@@ -25,7 +25,7 @@ struct RequestModel {
 
 extension RequestModel {
     enum Endpoint {
-        case cities
+        case cities(environment: Environment)
         
         var urlString: String {
             return baseURL + path
@@ -40,13 +40,23 @@ extension RequestModel {
         
         var path: String {
             switch self {
-            case .cities:
-                return "/hernan-uala/dce8843a8edbe0b0018b32e137bc2b3a/raw/0996accf70cb0ca0e16f9a99e0ee185fafca7af1/cities.json"
+            case let .cities(environment):
+                switch environment {
+                case .prod:
+                    return "/hernan-uala/dce8843a8edbe0b0018b32e137bc2b3a/raw/0996accf70cb0ca0e16f9a99e0ee185fafca7af1/cities.json"
+                case .dev:
+                    return "/ottocabanillas/6f299e1053fd0d0cfd622f2932188c55/raw/4d28af829a1f5f23598f291486353b4c30d4ecf1/cities.json"
+                }
             }
         }
     }
     
     enum HTTPMethod: String {
         case GET, POST, PUT, PATCH, DELETE
+    }
+    
+    enum Environment {
+        case prod
+        case dev
     }
 }

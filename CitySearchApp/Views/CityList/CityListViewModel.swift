@@ -31,7 +31,7 @@ final class CityListViewModel: ObservableObject {
 //MARK: - Network methods
 extension CityListViewModel {
     func fetchCities() async {
-        let requestModel = RequestModel(httpMethod: .GET, endpoint: .cities)
+        let requestModel = RequestModel(httpMethod: .GET, endpoint: .cities(environment: .dev))
         do {
             let fetchedCities: [CityModel] = try await service.fetchData(requestModel)
             let sortedCities = fetchedCities.sorted { ($0.name, $0.countryCode) < ($1.name, $1.countryCode) }
