@@ -15,11 +15,16 @@ final class CityListViewModel: ObservableObject {
     @Published var showFavoritesOnly: Bool = false
     
     private var service: NetworkService
+    private let storage: Storage
     
+    private var favCities: [CityModel] = []
     private var cancellables = Set<AnyCancellable>()
     
-    init(service: NetworkService = NetworkLayer()) {
+    init(service: NetworkService = NetworkLayer(), storage: Storage = LocalStorage()) {
+        self.storage = storage
         self.service = service
+        
+        loadFavCities()
         bindDisplayedCities()
     }
 }
@@ -42,9 +47,23 @@ extension CityListViewModel {
 //MARK: - Favorites methods
 extension CityListViewModel {
     func toggleFavorite(for city: CityModel) {
-        if let indexInAllCities = allCities.firstIndex(where: { $0.id == city.id }) {
-            allCities[indexInAllCities].isFavorite.toggle()
+        if let indexInFavs = favCities.firstIndex(where: { $0.id == city.id }) {
+            favCities.remove(at: indexInFavs)
+            
+            if let indexInAll = allCities.firstIndex(where: { $0.id == city.id }) {
+                allCities[indexInAll].isFavorite = false
+            }
+        } else {
+            var updatedCity = city
+            updatedCity.isFavorite = true
+            favCities.append(updatedCity)
+            
+            if let indexInAll = allCities.firstIndex(where: { $0.id == city.id }) {
+                allCities[indexInAll].isFavorite = true
+            }
         }
+        
+        saveFavCities()
     }
 }
 
@@ -55,19 +74,13 @@ extension CityListViewModel {
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .lowercased()
         
+        let source = favoritesOnly ? favCities : allCities
+        
         if prefix.isEmpty {
-            return favoritesOnly ? allCities.filter { $0.isFavorite } : allCities
+            return source
         }
         
-        if favoritesOnly {
-            return allCities.filter {
-                $0.isFavorite && $0.name.lowercased().hasPrefix(prefix)
-            }
-        } else {
-            return allCities.filter {
-                $0.name.lowercased().hasPrefix(prefix)
-            }
-        }
+        return source.filter { $0.name.lowercased().hasPrefix(prefix) }
     }
     
     private func bindDisplayedCities() {
@@ -85,5 +98,25 @@ extension CityListViewModel {
             }
             .store(in: &cancellables)
     }
+    
+}
 
+//MARK: - Storage methods
+extension CityListViewModel {
+    private func loadFavCities() {
+        do {
+            favCities = try storage.load([CityModel].self)
+            print(favCities)
+        } catch {
+            print("Failed to load favorite cities:", error)
+        }
+    }
+    
+    private func saveFavCities() {
+        do {
+            try storage.save(favCities)
+        } catch {
+            print("Failed to save favorite cities:", error)
+        }
+    }
 }
