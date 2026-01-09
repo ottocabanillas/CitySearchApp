@@ -26,6 +26,7 @@ struct RequestModel {
 extension RequestModel {
     enum Endpoint {
         case cities(environment: Environment)
+        case cityInfo
         
         var urlString: String {
             return baseURL + path
@@ -35,6 +36,8 @@ extension RequestModel {
             switch self {
             case .cities:
                 return "https://gist.githubusercontent.com"
+            case .cityInfo:
+                return "https://en.wikipedia.org/w"
             }
         }
         
@@ -47,6 +50,8 @@ extension RequestModel {
                 case .dev:
                     return "/ottocabanillas/6f299e1053fd0d0cfd622f2932188c55/raw/4d28af829a1f5f23598f291486353b4c30d4ecf1/cities.json"
                 }
+            case .cityInfo:
+                return "/api.php"
             }
         }
     }
