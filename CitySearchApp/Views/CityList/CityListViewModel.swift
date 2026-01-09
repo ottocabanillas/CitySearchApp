@@ -8,12 +8,6 @@
 import Combine
 import SwiftUI
 
-enum ResponseState {
-    case loading
-    case loaded
-    case failed
-}
-
 final class CityListViewModel: ObservableObject {
     @Published private(set) var displayedCities: [CityModel] = []
     @Published private(set) var allCities: [CityModel] = []
