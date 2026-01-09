@@ -14,15 +14,17 @@ final class CityListViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var showFavoritesOnly: Bool = false
     
-    private var service: NetworkService
+    private let service: NetworkService
     private let storage: Storage
+    private let seacher: SearchStrategy
     
     private var favCities: [CityModel] = []
     private var cancellables = Set<AnyCancellable>()
     
-    init(service: NetworkService = NetworkLayer(), storage: Storage = LocalStorage()) {
+    init(service: NetworkService = NetworkLayer(), storage: Storage = LocalStorage(), seacher: SearchStrategy = CityBinarySearch()) {
         self.storage = storage
         self.service = service
+        self.seacher = seacher
         
         loadFavCities()
         bindDisplayedCities()
@@ -80,7 +82,6 @@ extension CityListViewModel {
 extension CityListViewModel {
     private func resultDisplayed(allCities: [CityModel], searchText: String, favoritesOnly: Bool) -> [CityModel] {
         let prefix = searchText
-            .trimmingCharacters(in: .whitespacesAndNewlines)
             .lowercased()
         
         let source = favoritesOnly ? favCities : allCities
@@ -89,12 +90,12 @@ extension CityListViewModel {
             return source
         }
         
-        return source.filter { $0.name.lowercased().hasPrefix(prefix) }
+        return seacher.search(prefix: prefix, source: source)
     }
     
     private func bindDisplayedCities() {
         Publishers.CombineLatest3($searchText, $showFavoritesOnly, $allCities)
-            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.global(qos: .userInitiated))
+            .debounce(for: .milliseconds(150), scheduler: DispatchQueue.global(qos: .userInitiated))
             .map { [weak self] (text, favOnly, cities) -> [CityModel] in
                 guard let self = self else { return [] }
                 return self.resultDisplayed(allCities: cities, searchText: text, favoritesOnly: favOnly)
