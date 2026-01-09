@@ -20,8 +20,15 @@ final class CityListViewModel: ObservableObject {
     
     private var favCities: [CityModel] = []
     private var cancellables = Set<AnyCancellable>()
+
+    private var pageSize: Int = 50
+    private var currentPage: Int = 1
+    private var resultCities: [CityModel] = []
     
-    init(service: NetworkService = NetworkLayer(), storage: Storage = LocalStorage(), seacher: SearchStrategy = CityBinarySearch()) {
+    init(service: NetworkService = NetworkLayer(),
+         storage: Storage = LocalStorage(),
+         seacher: SearchStrategy = CityBinarySearch()) {
+
         self.storage = storage
         self.service = service
         self.seacher = seacher
@@ -102,13 +109,40 @@ extension CityListViewModel {
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
+                guard let self = self else { return }
+                
                 withTransaction(Transaction(animation: nil)) {
-                    self?.displayedCities = result
+                    self.resultCities = result
+                    self.currentPage = 1
+                    self.applyPagination(on: result)   
                 }
             }
             .store(in: &cancellables)
     }
+}
+
+// MARK: - Pagination
+extension CityListViewModel {
+    private func applyPagination(on list: [CityModel]) {
+        let upperBound = min(pageSize * currentPage, list.count)
+        self.displayedCities = Array(list.prefix(upperBound))
+    }
     
+    private func loadNextPage() {
+        guard displayedCities.count < resultCities.count else { return }
+        currentPage += 1
+        applyPagination(on: resultCities)
+    }
+    
+     func loadMoreCities(currentItem: CityModel) {
+        guard let index = displayedCities.firstIndex(where: { $0.id == currentItem.id }) else { return }
+
+        let threshold = displayedCities.count - 10
+
+        if index == threshold {
+            loadNextPage()
+        }
+    }
 }
 
 //MARK: - Storage methods
