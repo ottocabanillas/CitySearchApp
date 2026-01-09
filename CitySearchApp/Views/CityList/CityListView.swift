@@ -13,28 +13,38 @@ struct CityListView: View {
     var onSelectedCity: ((CityModel) -> Void)? = nil
     
     var body: some View {
-        contentListView
-            .task { await viewModel.fetchCities() }
-            .searchable(
-                text: $viewModel.searchText,
-                placement: .navigationBarDrawer(displayMode: .always),
-                prompt: "Search for a city"
-            )
-            .navigationDestination(item: $selectedCityForDetails) { city in
-                CityDetailView(viewModel: .init(city: city))
-            }
-    }
-    
-    private var contentListView: some View {
-        VStack(spacing: 0){
+        VStack() {
             VStack {
                 Toggle("Show only favorites", isOn: $viewModel.showFavoritesOnly)
                     .padding()
-                    .background(Color(.systemGray3))
             }
-            listView
+            .background(Color(.systemGray3))
+            Group {
+                switch viewModel.responseState {
+                case .loading:
+                    ProgressView()
+                        .scaleEffect(2.5)
+                case .loaded:
+                    contentListView
+                case .failed:
+                    failedListView
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .background(Color(.systemGray5))
+        .task { await viewModel.fetchCities() }
+        .searchable(
+            text: $viewModel.searchText,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: "Search for a city"
+        )
+        .navigationDestination(item: $selectedCityForDetails) { city in
+            CityDetailView(viewModel: .init(city: city))
+        }
+    }
+    
+    private var contentListView: some View {
+        listView
     }
     
     private var listView: some View {
@@ -50,6 +60,29 @@ struct CityListView: View {
             }
         }
         .listStyle(.plain)
+    }
+    
+    private var failedListView: some View {
+        VStack(spacing: 16) {
+            Text("Failed to load cities. Please try again later.")
+                .font(.largeTitle)
+                .fontWeight(.semibold)
+                .multilineTextAlignment(.center)
+            Text("😞")
+                .font(.system(size: 64))
+                .padding(.vertical, 5)
+            Button {
+                Task { await viewModel.fetchCities() }
+            } label: {
+                Text("Try again")
+                    .font(Font.title.bold())
+                    .foregroundColor(.white)
+                    .padding(8)
+                    .background(Color.blue)
+                    .cornerRadius(8)
+            }
+        }
+        .padding()
     }
 }
 

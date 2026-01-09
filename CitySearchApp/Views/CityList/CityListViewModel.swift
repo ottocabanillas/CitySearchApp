@@ -8,11 +8,19 @@
 import Combine
 import SwiftUI
 
+enum ResponseState {
+    case loading
+    case loaded
+    case failed
+}
+
 final class CityListViewModel: ObservableObject {
     @Published private(set) var displayedCities: [CityModel] = []
     @Published private(set) var allCities: [CityModel] = []
+    @Published private(set) var responseState: ResponseState = .loading
     @Published var searchText: String = ""
     @Published var showFavoritesOnly: Bool = false
+   
     
     private let service: NetworkService
     private let storage: Storage
@@ -40,15 +48,18 @@ final class CityListViewModel: ObservableObject {
 //MARK: - Network methods
 extension CityListViewModel {
     func fetchCities() async {
-        let requestModel = RequestModel(httpMethod: .GET, endpoint: .cities(environment: .dev))
+        responseState = .loading
+        let requestModel = RequestModel(httpMethod: .GET, endpoint: .cities(environment: .prod))
         do {
             let fetchedCities: [CityModel] = try await service.fetchData(requestModel)
             let sortedCities = fetchedCities.sorted { ($0.name, $0.countryCode) < ($1.name, $1.countryCode) }
             await MainActor.run {
                 self.allCities = sortedCities
                 self.syncFavorites()
+                responseState = .loaded
             }
         } catch {
+            responseState = .failed
             print("Error fetching cities: \(error)")
         }
     }
