@@ -29,17 +29,7 @@ final class CityDetailViewModel: ObservableObject {
 
 extension CityDetailViewModel {
     func fetchData() async {
-        let queryItems = [
-            "action": "query",
-            "format": "json",
-            "generator": "geosearch",
-            "ggsradius": "10000",
-            "ggslimit": "1",
-            "ggscoord": "\(city.coordinates.lat)|\(city.coordinates.lon)",
-            "prop": "extracts",
-            "exintro": "true",
-            "explaintext": "true"
-        ]
+        let queryItems = [ "ggscoord": "\(city.coordinates.lat)|\(city.coordinates.lon)" ]
         let requestModel = RequestModel(httpMethod: .GET, endpoint: .cityInfo, queryItems: queryItems)
         
         do {

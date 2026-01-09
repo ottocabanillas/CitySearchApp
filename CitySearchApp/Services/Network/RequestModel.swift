@@ -19,8 +19,37 @@ struct RequestModel {
     init(httpMethod: HTTPMethod, endpoint: Endpoint, queryItems: [String : String]? = nil) {
         self.httpMethod = httpMethod
         self.endpoint = endpoint
-        self.queryItems = queryItems
+        self.queryItems = addQueryItems(queryItems)
     }
+    
+    private func addQueryItems(_ queryItems: [String: String]?) -> [String: String]? {
+            var result: [String: String]
+            switch endpoint {
+            case .cities:
+                return nil
+            case .cityInfo:
+                result = [
+                    "action": "query",
+                    "format": "json",
+                    "generator": "geosearch",
+                    "ggsradius": "10000",
+                    "ggslimit": "1",
+                    "prop": "extracts",
+                    "exintro": "true",
+                    "explaintext": "true"
+                ]
+            }
+            
+            if let queryItems {
+                for (key, value) in queryItems {
+                    if result[key] == nil {
+                        result[key] = value
+                    }
+                }
+            }
+            
+            return result
+        }
 }
 
 extension RequestModel {
