@@ -19,7 +19,7 @@ struct CityListView: View {
                     .padding()
             }
             .background(Color(.systemGray3))
-            Group {
+            VStack {
                 switch viewModel.responseState {
                 case .loading:
                     ProgressView()
@@ -27,7 +27,7 @@ struct CityListView: View {
                 case .loaded:
                     contentListView
                 case .failed:
-                    failedListView
+                    failedView
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -83,7 +83,7 @@ struct CityListView: View {
         }
     }
     
-    private var failedListView: some View {
+    private var failedView: some View {
         VStack(spacing: 16) {
             Text("Failed to load cities. Please try again later.")
                 .font(.largeTitle)

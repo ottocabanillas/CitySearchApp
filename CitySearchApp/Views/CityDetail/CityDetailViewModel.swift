@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 final class CityDetailViewModel: ObservableObject {
+    @Published private(set) var responseState: ResponseState = .loading
     @Published var description: String = ""
     
     private let city: CityModel
@@ -29,6 +30,7 @@ final class CityDetailViewModel: ObservableObject {
 
 extension CityDetailViewModel {
     func fetchData() async {
+        responseState = .loading
         let queryItems = [ "ggscoord": "\(city.coordinates.lat)|\(city.coordinates.lon)" ]
         let requestModel = RequestModel(httpMethod: .GET, endpoint: .cityInfo, queryItems: queryItems)
         
@@ -37,9 +39,11 @@ extension CityDetailViewModel {
             await MainActor.run {
                 if let extract = fetchedCityInfo.query.pages.values.first?.extract, !extract.isEmpty {
                     self.description = extract
+                    self.responseState = .loaded
                 }
             }
         } catch {
+            self.responseState = .failed
             self.description = "No description available."
             print("Error fetching cities: \(error)")
         }
