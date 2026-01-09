@@ -27,7 +27,7 @@ struct CityListView: View {
                 case .loaded:
                     contentListView
                 case .failed:
-                    failedView
+                    FetchFailedView(action: viewModel.fetchCities)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -81,29 +81,6 @@ struct CityListView: View {
                 .foregroundColor(.gray)
             Spacer()
         }
-    }
-    
-    private var failedView: some View {
-        VStack(spacing: 16) {
-            Text("Failed to load cities. Please try again later.")
-                .font(.largeTitle)
-                .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
-            Text("😞")
-                .font(.system(size: 64))
-                .padding(.vertical, 5)
-            Button {
-                Task { await viewModel.fetchCities() }
-            } label: {
-                Text("Try again")
-                    .font(Font.title.bold())
-                    .foregroundColor(.white)
-                    .padding(8)
-                    .background(Color.blue)
-                    .cornerRadius(8)
-            }
-        }
-        .padding()
     }
 }
 
