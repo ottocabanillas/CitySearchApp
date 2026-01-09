@@ -8,9 +8,27 @@
 import SwiftUI
 
 struct CityDetailView: View {
-    let viewModel: CityDetailViewModel
+    @StateObject var viewModel: CityDetailViewModel
     var body: some View {
-        Text(viewModel.titleLabel)
+        detailView
+            .task { await viewModel.fetchData() }
+    }
+    
+    private var detailView: some View {
+        VStack{
+            VStack() {
+                Text(viewModel.titleLabel)
+                    .font(.title2.weight(.bold))
+            }
+            .padding(.vertical)
+            .padding(.horizontal, 16)
+            
+            ScrollView {
+                Text(viewModel.description)
+                    .padding(.horizontal, 16)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 
