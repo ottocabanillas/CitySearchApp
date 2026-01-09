@@ -44,7 +44,15 @@ struct CityListView: View {
     }
     
     private var contentListView: some View {
-        listView
+        VStack {
+            if viewModel.responseState == .loaded,
+               viewModel.displayedCities.isEmpty,
+               ( !viewModel.searchText.isEmpty || viewModel.showFavoritesOnly ) {
+                emptyListView
+            } else {
+                listView
+            }
+        }
     }
     
     private var listView: some View {
@@ -60,6 +68,19 @@ struct CityListView: View {
             }
         }
         .listStyle(.plain)
+    }
+    
+    private var emptyListView: some View {
+        VStack(spacing: 16) {
+            Spacer()
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 48))
+                .foregroundColor(.gray)
+            Text("No matches found")
+                .font(.title2)
+                .foregroundColor(.gray)
+            Spacer()
+        }
     }
     
     private var failedListView: some View {
