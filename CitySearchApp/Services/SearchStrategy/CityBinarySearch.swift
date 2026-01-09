@@ -54,10 +54,3 @@ final class CityBinarySearch: SearchStrategy {
         return low
     }
 }
-
-extension String {
-    func normalizedForSearch() -> String {
-        self.folding(options: .diacriticInsensitive, locale: .current)
-            .lowercased()
-    }
-}
