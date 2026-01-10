@@ -11,7 +11,7 @@ protocol NetworkService {
     func fetchData<T: Decodable>(_ requestModel: RequestModel) async throws -> T
 }
 
-//MARK: - APIService class
+//MARK: - NetworkLayer class
 final class NetworkLayer: NetworkService {
     func fetchData<T: Decodable>(_ requestModel: RequestModel) async throws -> T {
         
@@ -74,7 +74,7 @@ final class NetworkLayer: NetworkService {
         }
     }
     
-    func buildQueryItems(params: [String:String]) -> [URLQueryItem] {
+    private func buildQueryItems(params: [String:String]) -> [URLQueryItem] {
         let items = params.map({URLQueryItem(name: $0, value: $1)})
         return items
     }
