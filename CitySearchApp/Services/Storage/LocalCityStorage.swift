@@ -31,7 +31,7 @@ final class LocalCityStorage: CityStorage {
         
         guard FileManager.default.fileExists(atPath: url.path) else {
             throw NSError(domain: "LocalStorage", code: 404, userInfo: [
-                NSLocalizedDescriptionKey: "El archivo no existe en \(url.path)"
+                NSLocalizedDescriptionKey: "The file does not exist at \(url.path)"
             ])
             
         }
