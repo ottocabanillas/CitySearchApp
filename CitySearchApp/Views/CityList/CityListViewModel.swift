@@ -15,14 +15,19 @@ final class CityListViewModel: ObservableObject {
     @Published private(set) var responseState: ResponseState = .loading
     @Published var searchText: String = ""
     @Published var showFavoritesOnly: Bool = false
-   
+    
     private let service: NetworkService
     private let storage: CityStorage
     private let seacher: SearchStrategy
     
     private var cancellables = Set<AnyCancellable>()
+    
     private var favCities: [CityModel] = []
-
+    private var indexById: [Int: Int] = [:]
+    private var favIds: Set<Int> = []
+    
+    
+    
     private var resultCities: [CityModel] = []
     private var pageSize: Int = 50
     private var currentPage: Int = 1
@@ -51,11 +56,16 @@ extension CityListViewModel {
             let sortedCities = fetchedCities.sorted { ($0.name, $0.countryCode) < ($1.name, $1.countryCode) }
             await MainActor.run {
                 self.allCities = sortedCities
-                self.syncFavorites()
-                responseState = .loaded
+                self.indexById = Dictionary(
+                    uniqueKeysWithValues: allCities.enumerated().map {
+                        ($1.id, $0)
+                    }
+                )
+                self.syncFavoriteCities()
+                self.responseState = .loaded
             }
         } catch {
-            responseState = .failed
+            self.responseState = .failed
             print("Error fetching cities: \(error.localizedDescription)")
         }
     }
@@ -64,32 +74,39 @@ extension CityListViewModel {
 //MARK: - Favorites Methods
 extension CityListViewModel {
     func toggleFavorite(for city: CityModel) {
-        if let indexInFavs = favCities.binarySearchIndex(city) {
-            favCities.remove(at: indexInFavs)
-            
-            if let indexInAll = allCities.binarySearchIndex(city) {
-                allCities[indexInAll].isFavorite = false
-            }
-        } else {
-            var updatedCity = city
-            updatedCity.isFavorite = true
-            favCities.append(updatedCity)
-            
-            if let indexInAll = allCities.binarySearchIndex(city) {
-                allCities[indexInAll].isFavorite = true
-            }
-        }
-        
+        guard let index = indexById[city.id] else { return }
+        allCities[index].isFavorite.toggle()
+        updateFavoriteCollections(city: city, index: index)
         saveFavCities()
     }
     
-    private func syncFavorites() {
-        for favCity in favCities {
-            if let index = allCities.binarySearchIndex(favCity) {
+    private func updateFavoriteCollections(city: CityModel, index: Int) {
+        if favIds.contains(city.id) {
+            favIds.remove(city.id)
+            favCities.removeAll { $0.id == city.id }
+        } else {
+            favIds.insert(city.id)
+            favCities.append(allCities[index])
+            favCities.sort { ($0.name, $0.countryCode) < ($1.name, $1.countryCode) }
+        }
+    }
+    
+    private func syncFavoriteCities() {
+        for id in favIds {
+            if let index = indexById[id] {
                 allCities[index].isFavorite = true
             }
         }
+        updateFavoriteCitiesList()
     }
+    
+    private func updateFavoriteCitiesList() {
+        favCities = favIds.compactMap { id in
+            guard let index = indexById[id] else { return nil }
+            return allCities[index]
+        }.sorted { ($0.name, $0.countryCode) < ($1.name, $1.countryCode) }
+    }
+    
 }
 
 //MARK: - Search Methods
@@ -121,7 +138,7 @@ extension CityListViewModel {
                 withTransaction(Transaction(animation: nil)) {
                     self.resultCities = result
                     self.currentPage = 1
-                    self.applyPagination(on: result)   
+                    self.applyPagination(on: result)
                 }
             }
             .store(in: &cancellables)
@@ -141,11 +158,11 @@ extension CityListViewModel {
         applyPagination(on: resultCities)
     }
     
-     func loadMoreCities(currentItem: CityModel) {
+    func loadMoreCities(currentItem: CityModel) {
         guard let index = displayedCities.firstIndex(where: { $0.id == currentItem.id }) else { return }
-
+        
         let threshold = displayedCities.count - 10
-
+        
         if index == threshold {
             loadNextPage()
         }
@@ -156,7 +173,7 @@ extension CityListViewModel {
 extension CityListViewModel {
     private func loadFavCities() {
         do {
-            favCities = try storage.load([CityModel].self)
+            favIds = try storage.load(Set<Int>.self)
         } catch {
             print("Failed to load favorite cities:", error)
         }
@@ -164,7 +181,7 @@ extension CityListViewModel {
     
     private func saveFavCities() {
         do {
-            try storage.save(favCities)
+            try storage.save(favIds)
         } catch {
             print("Failed to save favorite cities:", error)
         }

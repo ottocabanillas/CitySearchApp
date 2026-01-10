@@ -15,7 +15,7 @@ protocol CityStorage {
 //MARK: -
 final class LocalCityStorage: CityStorage {
     //MARK: - Properties
-    private let fileName = "favorite_cities_list.json"
+    private let fileName = "fav_Cities_Ids.json"
     
     //MARK: - Methods
     func load<T>(_ type: T.Type) throws -> T where T : Decodable, T : Encodable {

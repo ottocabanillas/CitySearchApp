@@ -19,10 +19,11 @@ final class CityCellViewModel {
     }
     
     var isFavorite: Bool {
-        if let favorite = city.isFavorite {
-            return favorite
-        }
-        return false
+        return city.isFavorite
+//        if let favorite = city.isFavorite {
+//            return favorite
+//        }
+//        return false
     }
     
     //MARK: - Initialization

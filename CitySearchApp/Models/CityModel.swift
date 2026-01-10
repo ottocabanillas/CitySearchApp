@@ -13,7 +13,7 @@ struct CityModel: Codable, Identifiable {
     let name: String
     let countryCode: String
     let coordinates: Coordinates
-    var isFavorite: Bool? = false
+    var isFavorite: Bool = false
     
     //MARK: - Coding Keys
     enum CodingKeys: String, CodingKey {
@@ -21,7 +21,6 @@ struct CityModel: Codable, Identifiable {
         case name
         case countryCode = "country"
         case coordinates = "coord"
-        case isFavorite = "isFavorite"
     }
 }
 
