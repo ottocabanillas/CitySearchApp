@@ -6,7 +6,7 @@
 //
 
 final class CityCellViewModel {
-    let city: CityModel
+    private let city: CityModel
     
     var titleLabel: String {
         return "\(city.name), \(city.countryCode)"
