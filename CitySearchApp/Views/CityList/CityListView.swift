@@ -10,6 +10,7 @@ import SwiftUI
 struct CityListView: View {
     @StateObject private var viewModel = CityListViewModel()
     @State private var selectedCityForDetails: CityModel? = nil
+    
     var onSelectedCity: ((CityModel) -> Void)? = nil
     
     var body: some View {

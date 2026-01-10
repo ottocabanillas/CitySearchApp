@@ -15,17 +15,16 @@ final class CityListViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var showFavoritesOnly: Bool = false
    
-    
     private let service: NetworkService
     private let storage: CityStorage
     private let seacher: SearchStrategy
     
-    private var favCities: [CityModel] = []
     private var cancellables = Set<AnyCancellable>()
+    private var favCities: [CityModel] = []
 
+    private var resultCities: [CityModel] = []
     private var pageSize: Int = 50
     private var currentPage: Int = 1
-    private var resultCities: [CityModel] = []
     
     init(service: NetworkService = NetworkLayer(),
          storage: CityStorage = LocalCityStorage(),
@@ -82,9 +81,9 @@ extension CityListViewModel {
     }
     
     func syncFavorites() {
-        for fav in favCities {
-            if let idx = allCities.binarySearchIndex(fav) {
-                allCities[idx].isFavorite = true
+        for favCity in favCities {
+            if let index = allCities.binarySearchIndex(favCity) {
+                allCities[index].isFavorite = true
             }
         }
     }
