@@ -9,8 +9,9 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    let viewModel: MapViewModel
     @State private var cameraPosition: MapCameraPosition = .automatic
+    
+    let viewModel: MapViewModel
     
     var body: some View {
         contentMapView

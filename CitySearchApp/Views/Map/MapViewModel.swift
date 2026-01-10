@@ -8,12 +8,11 @@
 import CoreLocation
 
 final class MapViewModel {
-    let city: CityModel
+    private let city: CityModel
     
     var markLabel: String {
         return city.name
     }
-    
     var coordinates: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(
             latitude: city.coordinates.lat,
