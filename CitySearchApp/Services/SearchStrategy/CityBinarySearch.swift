@@ -27,7 +27,10 @@ final class CityBinarySearch: SearchStrategy {
         return Array(cities[start..<end])
     }
 
-    private func lowerBound(of target: String, in keys: [String]) -> Int {
+}
+
+private extension CityBinarySearch {
+    func lowerBound(of target: String, in keys: [String]) -> Int {
         var low = 0, high = keys.count
         while low < high {
             let mid = (low + high) / 2
@@ -40,7 +43,7 @@ final class CityBinarySearch: SearchStrategy {
         return low
     }
 
-    private func upperBound(of target: String, in keys: [String]) -> Int {
+    func upperBound(of target: String, in keys: [String]) -> Int {
         let targetUpper = target + "\u{FFFF}"
         var low = 0, high = keys.count
         while low < high {
