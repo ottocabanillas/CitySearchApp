@@ -15,17 +15,6 @@ protocol CityStorage {
 final class LocalCityStorage: CityStorage {
     private let fileName = "favorite_cities_list.json"
     
-    private func fileURL() throws -> URL {
-        let folder = try FileManager.default.url(
-            for: .documentDirectory,
-            in: .userDomainMask,
-            appropriateFor: nil,
-            create: true
-        )
-        
-        return folder.appendingPathComponent(fileName)
-    }
-    
     func load<T>(_ type: T.Type) throws -> T where T : Decodable, T : Encodable {
         let url = try fileURL()
         
@@ -43,5 +32,18 @@ final class LocalCityStorage: CityStorage {
     func save<T>(_ value: T) throws where T : Decodable, T : Encodable {
         let data = try JSONEncoder().encode(value)
         try data.write(to: fileURL(), options: .atomic)
+    }
+}
+
+extension LocalCityStorage {
+    private func fileURL() throws -> URL {
+        let folder = try FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true
+        )
+        
+        return folder.appendingPathComponent(fileName)
     }
 }
