@@ -10,7 +10,7 @@ import Combine
 
 final class CityDetailViewModel: ObservableObject {
     @Published private(set) var responseState: ResponseState = .loading
-    @Published var description: String = ""
+    @Published private(set) var description: String = ""
     
     private let city: CityModel
     private let service: NetworkService
