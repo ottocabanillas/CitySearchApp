@@ -1,5 +1,5 @@
 //
-//  LocalStorage.swift
+//  LocalCityStorage.swift
 //  CitySearchApp
 //
 //  Created by Oscar Cabanillas on 08/01/2026.
@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol Storage {
+protocol CityStorage {
     func load<T: Codable>(_ type: T.Type) throws -> T
     func save<T: Codable>(_ value: T) throws
 }
 
-final class LocalStorage: Storage {
+final class LocalCityStorage: CityStorage {
     private let fileName = "favorite_cities_list.json"
     
     private func fileURL() throws -> URL {

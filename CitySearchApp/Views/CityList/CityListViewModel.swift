@@ -17,7 +17,7 @@ final class CityListViewModel: ObservableObject {
    
     
     private let service: NetworkService
-    private let storage: Storage
+    private let storage: CityStorage
     private let seacher: SearchStrategy
     
     private var favCities: [CityModel] = []
@@ -28,7 +28,7 @@ final class CityListViewModel: ObservableObject {
     private var resultCities: [CityModel] = []
     
     init(service: NetworkService = NetworkLayer(),
-         storage: Storage = LocalStorage(),
+         storage: CityStorage = LocalCityStorage(),
          seacher: SearchStrategy = CityBinarySearch()) {
 
         self.storage = storage
