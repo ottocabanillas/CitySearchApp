@@ -54,7 +54,7 @@ extension CityListViewModel {
             }
         } catch {
             responseState = .failed
-            print("Error fetching cities: \(error)")
+            print("Error fetching cities: \(error.localizedDescription)")
         }
     }
 }

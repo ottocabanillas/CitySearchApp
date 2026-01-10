@@ -45,7 +45,7 @@ extension CityDetailViewModel {
         } catch {
             self.responseState = .failed
             self.description = "No description available."
-            print("Error fetching cities: \(error)")
+            print("Error fetching cities: \(error.localizedDescription)")
         }
     }
 }
