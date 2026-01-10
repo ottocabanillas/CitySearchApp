@@ -29,6 +29,25 @@
 		696466FA2F0E05860095C75A /* CitySearchAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CitySearchAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		69E7DB8C2F121CBC00767619 /* Exceptions for "CitySearchAppTests" folder in "CitySearchAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CitySearchAppUITests/CitySearchAppUITests.swift,
+				CitySearchAppUITests/CitySearchAppUITestsLaunchTests.swift,
+			);
+			target = 696466EF2F0E05860095C75A /* CitySearchAppTests */;
+		};
+		69E7DB8D2F121CBC00767619 /* Exceptions for "CitySearchAppTests" folder in "CitySearchAppUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CitySearchAppUITests/CitySearchAppUITests.swift,
+				CitySearchAppUITests/CitySearchAppUITestsLaunchTests.swift,
+			);
+			target = 696466F92F0E05860095C75A /* CitySearchAppUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		696466E52F0E05850095C75A /* CitySearchApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -37,12 +56,11 @@
 		};
 		696466F32F0E05860095C75A /* CitySearchAppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				69E7DB8C2F121CBC00767619 /* Exceptions for "CitySearchAppTests" folder in "CitySearchAppTests" target */,
+				69E7DB8D2F121CBC00767619 /* Exceptions for "CitySearchAppTests" folder in "CitySearchAppUITests" target */,
+			);
 			path = CitySearchAppTests;
-			sourceTree = "<group>";
-		};
-		696466FD2F0E05860095C75A /* CitySearchAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CitySearchAppUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -77,7 +95,6 @@
 			children = (
 				696466E52F0E05850095C75A /* CitySearchApp */,
 				696466F32F0E05860095C75A /* CitySearchAppTests */,
-				696466FD2F0E05860095C75A /* CitySearchAppUITests */,
 				696466E42F0E05850095C75A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -152,9 +169,6 @@
 			);
 			dependencies = (
 				696466FC2F0E05860095C75A /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				696466FD2F0E05860095C75A /* CitySearchAppUITests */,
 			);
 			name = CitySearchAppUITests;
 			packageProductDependencies = (

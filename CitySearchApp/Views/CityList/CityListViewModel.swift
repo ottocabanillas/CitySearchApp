@@ -31,7 +31,7 @@ final class CityListViewModel: ObservableObject {
     init(service: NetworkService = NetworkLayer(),
          storage: CityStorage = LocalCityStorage(),
          seacher: SearchStrategy = CityBinarySearch()) {
-
+        
         self.storage = storage
         self.service = service
         self.seacher = seacher
