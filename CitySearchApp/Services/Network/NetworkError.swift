@@ -25,36 +25,36 @@ enum NetworkError: String, Error {
 }
 
 extension NetworkError: LocalizedError {
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self {
         case .invalidURL:
-            return NSLocalizedString("The URL is invalid.", comment: "")
+            return "The URL is invalid."
         case .serializationFailed:
-            return NSLocalizedString("Failed while attempting to serialize the request body.", comment: "")
+            return "Failed while attempting to serialize the request body."
         case .generic:
-            return NSLocalizedString("The app failed due to an unknown error.", comment: "")
+            return "The app failed due to an unknown error."
         case .couldNotDecodeData:
-            return NSLocalizedString("Failed to decode the response data.", comment: "")
+            return "Failed to decode the response data."
         case .httpResponseError:
-            return NSLocalizedString("Unable to obtain a valid HTTPURLResponse.", comment: "")
+            return "Unable to obtain a valid HTTPURLResponse."
         case .statusCodeError:
-            return NSLocalizedString("The status code is different from 200.", comment: "")
+            return "The status code is different from 200."
         case .noInternetConnection:
-            return NSLocalizedString("No internet connection. Please check your network settings.", comment: "")
+            return "No internet connection. Please check your network settings."
         case .timeout:
-            return NSLocalizedString("The request timed out. Please try again.", comment: "")
+            return "The request timed out. Please try again."
         case .badRequest:
-            return NSLocalizedString("Bad request. The server could not understand the request.", comment: "")
+            return "Bad request. The server could not understand the request."
         case .unauthorized:
-            return NSLocalizedString("Unauthorized. Please check your credentials.", comment: "")
+            return "Unauthorized. Please check your credentials."
         case .forbidden:
-            return NSLocalizedString("Forbidden. You do not have permission to access this resource.", comment: "")
+            return "Forbidden. You do not have permission to access this resource."
         case .notFound:
-            return NSLocalizedString("Not found. The requested resource could not be found.", comment: "")
+            return "Not found. The requested resource could not be found."
         case .serverError:
-            return NSLocalizedString("Server error. Please try again later.", comment: "")
+            return "Server error. Please try again later."
         case .noData:
-            return NSLocalizedString("No data received from the server.", comment: "")
+            return "No data received from the server."
         }
     }
 }
