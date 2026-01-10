@@ -6,8 +6,10 @@
 //
 
 final class CityCellViewModel {
+    //MARK: - Properties
     private let city: CityModel
     
+    //MARK: - Computed Properties
     var titleLabel: String {
         return "\(city.name), \(city.countryCode)"
     }
@@ -23,6 +25,7 @@ final class CityCellViewModel {
         return false
     }
     
+    //MARK: - Initialization
     init(city: CityModel) {
         self.city = city
     }

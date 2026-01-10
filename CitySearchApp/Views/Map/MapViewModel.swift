@@ -8,8 +8,10 @@
 import CoreLocation
 
 final class MapViewModel {
+    // MARK: - Properties
     private let city: CityModel
     
+    // MARK: - Computed Properties
     var markLabel: String {
         return city.name
     }
@@ -19,7 +21,7 @@ final class MapViewModel {
             longitude: city.coordinates.lon
         )
     }
-    
+    // MARK: - Initialization
     init(city: CityModel) {
         self.city = city
     }

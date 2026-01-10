@@ -24,6 +24,7 @@ enum NetworkError: String, Error {
     case noData
 }
 
+// MARK: - LocalizedError
 extension NetworkError: LocalizedError {
     var errorDescription: String? {
         switch self {

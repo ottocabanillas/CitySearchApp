@@ -8,20 +8,26 @@
 import Foundation
 
 struct RequestModel {
+    // MARK: - Properties
     let httpMethod: HTTPMethod
     let endpoint: Endpoint
     var queryItems: [String: String]?
     
+    //MARK: - Computed Properties
     var urlString: String {
         return endpoint.urlString
     }
     
+    //MARK: - Initialization
     init(httpMethod: HTTPMethod, endpoint: Endpoint, queryItems: [String : String]? = nil) {
         self.httpMethod = httpMethod
         self.endpoint = endpoint
         self.queryItems = addQueryItems(queryItems)
     }
-    
+}
+
+// MARK: - Private Methods
+extension RequestModel {
     private func addQueryItems(_ queryItems: [String: String]?) -> [String: String]? {
             var result: [String: String]
             switch endpoint {
@@ -52,11 +58,21 @@ struct RequestModel {
         }
 }
 
+// MARK: - Enums
 extension RequestModel {
+    enum HTTPMethod: String {
+        case GET, POST, PUT, PATCH, DELETE
+    }
+    enum Environment {
+        case prod
+        case dev
+    }
+    
     enum Endpoint {
         case cities(environment: Environment)
         case cityInfo
         
+        //MARK: - Computed Properties
         var urlString: String {
             return baseURL + path
         }
@@ -86,13 +102,4 @@ extension RequestModel {
     }
 }
 
-extension RequestModel {
-    enum HTTPMethod: String {
-        case GET, POST, PUT, PATCH, DELETE
-    }
-    
-    enum Environment {
-        case prod
-        case dev
-    }
-}
+

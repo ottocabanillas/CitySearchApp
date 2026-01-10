@@ -11,10 +11,9 @@ protocol NetworkService {
     func fetchData<T: Decodable>(_ requestModel: RequestModel) async throws -> T
 }
 
-//MARK: - NetworkLayer class
+// MARK: -
 final class NetworkLayer: NetworkService {
     func fetchData<T: Decodable>(_ requestModel: RequestModel) async throws -> T {
-        
         var serviceURL = URLComponents(string: requestModel.urlString)
         serviceURL?.queryItems = buildQueryItems(params: requestModel.queryItems ?? [:])
         
@@ -73,7 +72,10 @@ final class NetworkLayer: NetworkService {
             throw NetworkError.generic
         }
     }
-    
+}
+
+//MARK: - Private Methods
+extension NetworkLayer {
     private func buildQueryItems(params: [String:String]) -> [URLQueryItem] {
         let items = params.map({URLQueryItem(name: $0, value: $1)})
         return items

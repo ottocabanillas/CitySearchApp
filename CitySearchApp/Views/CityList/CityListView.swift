@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct CityListView: View {
+    //MARK: - Properties
     @StateObject private var viewModel = CityListViewModel()
     @State private var selectedCityForDetails: CityModel? = nil
-    
     var onSelectedCity: ((CityModel) -> Void)? = nil
     
+    //MARK: - Body
     var body: some View {
         VStack() {
             VStack {
@@ -44,6 +45,7 @@ struct CityListView: View {
         }
     }
     
+    //MARK: - Private Views
     private var contentListView: some View {
         VStack {
             if viewModel.responseState == .loaded,

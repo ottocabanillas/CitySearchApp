@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct CityCellView: View {
+    //MARK: - Properties
     let viewModel: CityCellViewModel
     let onCellTapped: () -> Void
     let onInfoTapped: () -> Void
     let onFavoriteTapped: () -> Void
     
+    //MARK: - Body
     var body: some View {
         HStack {
             descriptionView
@@ -23,6 +25,7 @@ struct CityCellView: View {
         .onTapGesture { onCellTapped() }
     }
     
+    //MARK: - Private Views
     private var descriptionView: some View {
         VStack(alignment: .leading) {
             Text(viewModel.titleLabel)

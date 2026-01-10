@@ -12,9 +12,12 @@ protocol CityStorage {
     func save<T: Codable>(_ value: T) throws
 }
 
+//MARK: -
 final class LocalCityStorage: CityStorage {
+    //MARK: - Properties
     private let fileName = "favorite_cities_list.json"
     
+    //MARK: - Methods
     func load<T>(_ type: T.Type) throws -> T where T : Decodable, T : Encodable {
         let url = try fileURL()
         
@@ -35,6 +38,7 @@ final class LocalCityStorage: CityStorage {
     }
 }
 
+//MARK: - Private Methods
 extension LocalCityStorage {
     private func fileURL() throws -> URL {
         let folder = try FileManager.default.url(

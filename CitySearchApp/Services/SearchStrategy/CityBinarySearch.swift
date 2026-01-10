@@ -11,6 +11,7 @@ protocol SearchStrategy {
     func search(prefix: String, source: [CityModel]) -> [CityModel]
 }
 
+//MARK: -
 final class CityBinarySearch: SearchStrategy {
     func search(prefix: String, source: [CityModel]) -> [CityModel] {
         let target = prefix.normalizedForSearch()
@@ -29,8 +30,9 @@ final class CityBinarySearch: SearchStrategy {
 
 }
 
-private extension CityBinarySearch {
-    func lowerBound(of target: String, in keys: [String]) -> Int {
+//MARK: - Private Methods
+extension CityBinarySearch {
+   private func lowerBound(of target: String, in keys: [String]) -> Int {
         var low = 0, high = keys.count
         while low < high {
             let mid = (low + high) / 2
@@ -42,8 +44,8 @@ private extension CityBinarySearch {
         }
         return low
     }
-
-    func upperBound(of target: String, in keys: [String]) -> Int {
+    
+    private func upperBound(of target: String, in keys: [String]) -> Int {
         let targetUpper = target + "\u{FFFF}"
         var low = 0, high = keys.count
         while low < high {

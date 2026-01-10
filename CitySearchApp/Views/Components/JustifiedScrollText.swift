@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct JustifiedScrollText: UIViewRepresentable {
+    //MARK: - Properties
     let text: String
-
+    
+    //MARK: - Methods
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
         textView.isEditable = false

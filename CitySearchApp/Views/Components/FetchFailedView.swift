@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct FetchFailedView: View {
+    //MARK: - Properties
     let action: () async -> Void
     
+    //MARK: - Body
     var body: some View {
         VStack(spacing: 40) {
             Text("Oops! Something went wrong 😞")

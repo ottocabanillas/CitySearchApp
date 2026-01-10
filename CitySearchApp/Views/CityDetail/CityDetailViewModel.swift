@@ -9,12 +9,14 @@ import Foundation
 import Combine
 
 final class CityDetailViewModel: ObservableObject {
+    //MARK: - Properties
     @Published private(set) var responseState: ResponseState = .loading
     @Published private(set) var description: String = ""
     
     private let city: CityModel
     private let service: NetworkService
     
+    //MARK: - Computed Properties
     var titleLabel: String {
         let cityName = city.name
         let locale = Locale(identifier: "en_US")
@@ -22,12 +24,14 @@ final class CityDetailViewModel: ObservableObject {
         return "\(cityName), \(countryName)"
     }
     
+    //MARK: - Initialization
     init(city: CityModel, service: NetworkService = NetworkLayer() ) {
         self.city = city
         self.service = service
     }
 }
 
+//MARK: - Network Methods
 extension CityDetailViewModel {
     func fetchData() async {
         responseState = .loading

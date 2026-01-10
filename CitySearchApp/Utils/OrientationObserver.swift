@@ -9,11 +9,14 @@ import Combine
 import SwiftUI
 
 final class OrientationObserver: ObservableObject {
+    //MARK: - Published Properties
     @Published var isPortrait: Bool = true
     
+    //MARK: - Private Properties
     private let screen: UIScreen?
     private var cancellable: AnyCancellable?
     
+    //MARK: - Initialization
     init(screen: UIScreen? = nil) {
         if let screen = screen {
             self.screen = screen
@@ -27,7 +30,10 @@ final class OrientationObserver: ObservableObject {
                 self?.updateOrientation()
             }
     }
-    
+}
+
+//MARK: - Private Methods
+extension OrientationObserver {
     private func updateOrientation() {
         let orientation = UIDevice.current.orientation
         if orientation.isValidInterfaceOrientation && !orientation.isFlat {

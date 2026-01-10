@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct CityDetailView: View {
+    //MARK: - Properties
     @StateObject var viewModel: CityDetailViewModel
     
+    //MARK: - Body
     var body: some View {
         VStack {
             switch viewModel.responseState {
@@ -25,6 +27,7 @@ struct CityDetailView: View {
         .task { await viewModel.fetchData() }
     }
     
+    //MARK: - Private Views
     private var detailView: some View {
         VStack{
             Text(viewModel.titleLabel)

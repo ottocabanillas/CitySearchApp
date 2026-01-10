@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    //MARK: - Properties
     @EnvironmentObject var orientationObserver: OrientationObserver
     @State private var selectedCity: CityModel? = nil
     
+    //MARK: - Body
     var body: some View {
         if orientationObserver.isPortrait {
             portraitView
@@ -19,6 +21,7 @@ struct ContentView: View {
         }
     }
     
+    //MARK: - Private Views
     private var portraitView: some View {
         NavigationStack {
             CityListView(onSelectedCity: { city in

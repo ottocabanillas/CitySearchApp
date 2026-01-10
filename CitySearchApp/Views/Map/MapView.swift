@@ -9,14 +9,16 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
+    // MARK: - Properties
     @State private var cameraPosition: MapCameraPosition = .automatic
-    
     let viewModel: MapViewModel
     
+    // MARK: - Body
     var body: some View {
         contentMapView
     }
     
+    // MARK: - Private Views
     private var contentMapView: some View {
         Map(position: $cameraPosition) {
             Marker(viewModel.markLabel, coordinate: viewModel.coordinates)

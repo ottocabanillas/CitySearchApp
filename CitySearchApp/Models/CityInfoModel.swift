@@ -8,8 +8,10 @@
 import Foundation
 
 struct CityInfoModel: Codable {
+    //MARK: - Properties
     let query: Query
     
+    //MARK: - Structs
     struct Query: Codable {
         let pages: [String: Page]
     }

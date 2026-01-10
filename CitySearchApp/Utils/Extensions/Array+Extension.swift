@@ -5,6 +5,7 @@
 //  Created by Oscar Cabanillas on 09/01/2026.
 //
 
+//MARK: - Extension for Binary Search
 extension Array where Element == CityModel {
     func binarySearchIndex(_ targetCity: CityModel) -> Int? {
         var low = 0

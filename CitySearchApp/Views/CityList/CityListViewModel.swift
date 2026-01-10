@@ -9,6 +9,7 @@ import Combine
 import SwiftUI
 
 final class CityListViewModel: ObservableObject {
+    //MARK: - Properties
     @Published private(set) var displayedCities: [CityModel] = []
     @Published private(set) var allCities: [CityModel] = []
     @Published private(set) var responseState: ResponseState = .loading
@@ -26,6 +27,7 @@ final class CityListViewModel: ObservableObject {
     private var pageSize: Int = 50
     private var currentPage: Int = 1
     
+    //MARK: - Initialization
     init(service: NetworkService = NetworkLayer(),
          storage: CityStorage = LocalCityStorage(),
          seacher: SearchStrategy = CityBinarySearch()) {
@@ -38,7 +40,8 @@ final class CityListViewModel: ObservableObject {
         bindDisplayedCities()
     }
 }
-//MARK: - Network methods
+
+//MARK: - Network Methods
 extension CityListViewModel {
     func fetchCities() async {
         responseState = .loading
@@ -58,7 +61,7 @@ extension CityListViewModel {
     }
 }
 
-//MARK: - Favorites methods
+//MARK: - Favorites Methods
 extension CityListViewModel {
     func toggleFavorite(for city: CityModel) {
         if let indexInFavs = favCities.binarySearchIndex(city) {
@@ -80,7 +83,7 @@ extension CityListViewModel {
         saveFavCities()
     }
     
-    func syncFavorites() {
+    private func syncFavorites() {
         for favCity in favCities {
             if let index = allCities.binarySearchIndex(favCity) {
                 allCities[index].isFavorite = true
@@ -89,7 +92,7 @@ extension CityListViewModel {
     }
 }
 
-//MARK: - Search methods
+//MARK: - Search Methods
 extension CityListViewModel {
     private func resultDisplayed(allCities: [CityModel], searchText: String, favoritesOnly: Bool) -> [CityModel] {
         let prefix = searchText
@@ -125,7 +128,7 @@ extension CityListViewModel {
     }
 }
 
-// MARK: - Pagination
+// MARK: - Pagination Methods
 extension CityListViewModel {
     private func applyPagination(on list: [CityModel]) {
         let upperBound = min(pageSize * currentPage, list.count)
