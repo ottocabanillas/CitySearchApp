@@ -84,7 +84,9 @@ extension RequestModel {
             }
         }
     }
-    
+}
+
+extension RequestModel {
     enum HTTPMethod: String {
         case GET, POST, PUT, PATCH, DELETE
     }
