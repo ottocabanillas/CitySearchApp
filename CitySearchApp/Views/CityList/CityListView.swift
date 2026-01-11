@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CityListView: View {
     //MARK: - Properties
-    @StateObject private var viewModel = CityListViewModel.buildViewModel()
+    @EnvironmentObject private var viewModel: CityListViewModel
     @State private var selectedCityForDetails: CityModel? = nil
     var onSelectedCity: ((CityModel) -> Void)? = nil
     
@@ -34,7 +34,11 @@ struct CityListView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .task { await viewModel.fetchCities() }
+        .task {
+            if viewModel.allCities.isEmpty {
+                await viewModel.fetchCities()
+            }
+        }
         .searchable(
             text: $viewModel.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
@@ -90,5 +94,6 @@ struct CityListView: View {
 #Preview {
     NavigationStack {
         CityListView()
+            .environmentObject(CityListViewModel.buildViewModel())
     }
 }
