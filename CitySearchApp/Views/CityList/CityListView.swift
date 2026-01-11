@@ -73,6 +73,7 @@ struct CityListView: View {
             .onAppear {
                 viewModel.loadMoreCities(currentItem: city)
             }
+            .accessibilityIdentifier("cityListView.cell_\(city.id)")
         }
         .listStyle(.plain)
     }
