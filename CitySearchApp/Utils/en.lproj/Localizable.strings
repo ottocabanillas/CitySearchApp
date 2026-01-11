@@ -14,3 +14,6 @@ NO_RESULT = "No matches found";
 //MARK: - FetchFailedView
 ERROR_MESSAGE = "Oops! Something went wrong 😞";
 TRY_AGAIN_BUTTON = "Try again";
+
+//MARK: - ContentView
+SELECT_CITY_MESSAGE = "Select a city to see its\n location on the map.";

@@ -52,7 +52,7 @@ struct ContentView: View {
     
     private var selectMapView: some View {
         VStack{
-            Text("Select a city to see its\n location on the map.")
+            Text("SELECT_CITY_MESSAGE")
                 .font(Font.system(size: 32, weight: .bold))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
