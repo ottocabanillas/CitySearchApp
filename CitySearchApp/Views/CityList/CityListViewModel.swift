@@ -18,7 +18,7 @@ final class CityListViewModel: ObservableObject {
     
     private let service: NetworkService
     private let storage: CityStorage
-    private let seacher: SearchStrategy
+    private let seacher: SearchStrategy = CityBinarySearch()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -26,23 +26,27 @@ final class CityListViewModel: ObservableObject {
     private var indexById: [Int: Int] = [:]
     private var favIds: Set<Int> = []
     
-    
-    
     private var resultCities: [CityModel] = []
     private var pageSize: Int = 50
     private var currentPage: Int = 1
     
     //MARK: - Initialization
-    init(service: NetworkService = NetworkLayer(),
-         storage: CityStorage = LocalCityStorage(),
-         seacher: SearchStrategy = CityBinarySearch()) {
-        
+    init(service: NetworkService,
+         storage: CityStorage
+    ) {
         self.storage = storage
         self.service = service
-        self.seacher = seacher
         
         loadFavCities()
         bindDisplayedCities()
+    }
+    
+    //MARK: - Initialization Method
+    static func buildViewModel() -> CityListViewModel {
+        CityListViewModel(
+            service: NetworkLayer(),
+            storage: LocalCityStorage()
+        )
     }
 }
 

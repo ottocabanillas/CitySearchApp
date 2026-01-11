@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CityListView: View {
     //MARK: - Properties
-    @StateObject private var viewModel = CityListViewModel()
+    @StateObject private var viewModel = CityListViewModel.buildViewModel()
     @State private var selectedCityForDetails: CityModel? = nil
     var onSelectedCity: ((CityModel) -> Void)? = nil
     
