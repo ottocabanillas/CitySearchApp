@@ -13,9 +13,9 @@ struct CitySearchApp: App {
     @StateObject private var cityLitViewModel: CityListViewModel
     
     init() {
-        let useMock = ProcessInfo.processInfo.arguments.contains("--use-mock")
-        let network: NetworkService = useMock ? MockNetworkLayer(testData: .cities) : NetworkLayer()
-        let storage: CityStorage = useMock ? MockLocalCityStorage() : LocalCityStorage()
+        let useMock = ProcessInfo.processInfo.arguments.contains("Search for a city")
+        let network: NetworkService = true ? MockNetworkLayer(testData: .cities) : NetworkLayer()
+        let storage: CityStorage = true ? MockLocalCityStorage() : LocalCityStorage()
         _cityLitViewModel = StateObject(wrappedValue: CityListViewModel(service: network, storage: storage))
     }
     var body: some Scene {
