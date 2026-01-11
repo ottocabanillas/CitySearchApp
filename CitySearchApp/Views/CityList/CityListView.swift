@@ -17,7 +17,7 @@ struct CityListView: View {
     var body: some View {
         VStack() {
             VStack {
-                Toggle("Show only favorites", isOn: $viewModel.showFavoritesOnly)
+                Toggle("FAVORITE_TOGGLE_BUTTON", isOn: $viewModel.showFavoritesOnly)
                     .padding()
             }
             .background(Color(.systemGray3))
@@ -38,7 +38,7 @@ struct CityListView: View {
         .searchable(
             text: $viewModel.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Search for a city"
+            prompt: "SEARCH_PLACEHOLDER"
         )
         .navigationDestination(item: $selectedCityForDetails) { city in
             CityDetailView(viewModel: .init(city: city))
@@ -79,7 +79,7 @@ struct CityListView: View {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 48))
                 .foregroundColor(.gray)
-            Text("No matches found")
+            Text("NO_RESULT")
                 .font(.title2)
                 .foregroundColor(.gray)
             Spacer()

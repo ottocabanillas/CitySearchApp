@@ -14,14 +14,14 @@ struct FetchFailedView: View {
     //MARK: - Body
     var body: some View {
         VStack(spacing: 40) {
-            Text("Oops! Something went wrong 😞")
+            Text("ERROR_MESSAGE")
                 .font(.largeTitle)
                 .fontWeight(.semibold)
                 .multilineTextAlignment(.center)
             Button {
                 Task { await action() }
             } label: {
-                Text("Try again")
+                Text("TRY_AGAIN_BUTTON")
                     .font(Font.title.bold())
                     .foregroundColor(.white)
                     .padding(8)

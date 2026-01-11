@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  CitySearchApp
+
+  Created by Oscar Cabanillas on 10/01/2026.
+  
+*/
+
+//MARK: - CityListView
+FAVORITE_TOGGLE_BUTTON = "Show only favorites";
+SEARCH_PLACEHOLDER = "Search for a city";
+NO_RESULT = "No matches found";
+
+//MARK: - FetchFailedView
+ERROR_MESSAGE = "Oops! Something went wrong 😞";
+TRY_AGAIN_BUTTON = "Try again";
