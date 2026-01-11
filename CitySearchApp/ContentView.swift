@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     //MARK: - Properties
-    @EnvironmentObject var orientationObserver: OrientationObserver
+    @StateObject private var orientationObserver: OrientationObserver = OrientationObserver()
     @State private var selectedCity: CityModel? = nil
     
     //MARK: - Body
@@ -62,5 +62,4 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(OrientationObserver())
 }
