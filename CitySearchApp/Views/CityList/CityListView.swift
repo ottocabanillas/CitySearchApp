@@ -94,6 +94,6 @@ struct CityListView: View {
 #Preview {
     NavigationStack {
         CityListView()
-            .environmentObject(CityListViewModel.buildViewModel())
+            .environmentObject(CityListViewModel(service: NetworkLayer(), storage: LocalCityStorage()))
     }
 }

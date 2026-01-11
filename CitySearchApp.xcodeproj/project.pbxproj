@@ -29,6 +29,17 @@
 		69EF67372F1432AB00F36874 /* CitySearchAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CitySearchAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		69EF674A2F143A8700F36874 /* Exceptions for "CitySearchAppTests" folder in "CitySearchApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/MockLocalCityStorage.swift,
+				Mocks/MockNetworkLayer.swift,
+			);
+			target = 696466E22F0E05850095C75A /* CitySearchApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		696466E52F0E05850095C75A /* CitySearchApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -37,6 +48,9 @@
 		};
 		69EF672B2F14329100F36874 /* CitySearchAppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				69EF674A2F143A8700F36874 /* Exceptions for "CitySearchAppTests" folder in "CitySearchApp" target */,
+			);
 			path = CitySearchAppTests;
 			sourceTree = "<group>";
 		};

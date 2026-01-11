@@ -42,12 +42,12 @@ final class CityListViewModel: ObservableObject {
     }
     
     //MARK: - Initialization Method
-    static func buildViewModel() -> CityListViewModel {
-        CityListViewModel(
-            service: NetworkLayer(),
-            storage: LocalCityStorage()
-        )
-    }
+//    static func buildViewModel() -> CityListViewModel {
+//        CityListViewModel(
+//            service: NetworkLayer(),
+//            storage: LocalCityStorage()
+//        )
+//    }
 }
 
 //MARK: - Network Methods

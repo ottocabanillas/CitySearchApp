@@ -22,7 +22,7 @@ final class MockNetworkLayer: NetworkService {
         self.errorToThrow = errorToThrow
     }
     
-    func callService<T: Decodable>(_ requestModel: CitySearchApp.RequestModel) async throws -> T {
+    func callService<T: Decodable>(_ requestModel: RequestModel) async throws -> T {
         if shouldThrowError {
             throw errorToThrow
         }

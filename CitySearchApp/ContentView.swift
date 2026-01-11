@@ -62,5 +62,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(CityListViewModel.buildViewModel())
+        .environmentObject(CityListViewModel(service: NetworkLayer(), storage: LocalCityStorage()))
 }
