@@ -17,7 +17,7 @@ final class CityListViewModelTests: XCTestCase {
     
     // MARK: - Setup & Teardown
     override func setUp() {
-        mockService = MockNetworkLayer()
+        mockService = MockNetworkLayer(testData: .cities)
         mockStorage = MockLocalCityStorage()
         sut = CityListViewModel(service: mockService, storage: mockStorage)
     }
