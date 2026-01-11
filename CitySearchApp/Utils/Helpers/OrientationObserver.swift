@@ -36,11 +36,16 @@ final class OrientationObserver: ObservableObject {
 extension OrientationObserver {
     private func updateOrientation() {
         let orientation = UIDevice.current.orientation
-        if orientation.isValidInterfaceOrientation && !orientation.isFlat {
-            self.isPortrait = orientation.isPortrait
-        } else if let screen = self.screen {
-            self.isPortrait = screen.bounds.height >= screen.bounds.width
-        } else {
+        switch orientation {
+        case .portrait:
+            self.isPortrait = true
+        case .portraitUpsideDown,
+             .landscapeLeft,
+             .landscapeRight,
+             .faceUp,
+             .faceDown:
+            self.isPortrait = false
+        default:
             self.isPortrait = true
         }
     }
