@@ -8,8 +8,8 @@
 import Foundation
 
 protocol CityStorage {
-    func load<T: Codable>(_ type: T.Type) throws -> T
-    func save<T: Codable>(_ value: T) throws
+    func load<T: Decodable>(_ type: T.Type) throws -> T
+    func save<T: Encodable>(_ value: T) throws
 }
 
 //MARK: -
@@ -18,7 +18,7 @@ final class LocalCityStorage: CityStorage {
     private let fileName = "fav_Cities_Ids.json"
     
     //MARK: - Methods
-    func load<T>(_ type: T.Type) throws -> T where T : Decodable, T : Encodable {
+    func load<T: Decodable>(_ type: T.Type) throws -> T {
         let url = try fileURL()
         
         guard FileManager.default.fileExists(atPath: url.path) else {
@@ -32,7 +32,7 @@ final class LocalCityStorage: CityStorage {
         return try JSONDecoder().decode(T.self, from: data)
     }
     
-    func save<T>(_ value: T) throws where T : Decodable, T : Encodable {
+    func save<T: Encodable>(_ value: T) throws {
         let data = try JSONEncoder().encode(value)
         try data.write(to: fileURL(), options: .atomic)
     }
