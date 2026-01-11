@@ -39,7 +39,7 @@ extension CityDetailViewModel {
         let requestModel = RequestModel(httpMethod: .GET, endpoint: .cityInfo, queryItems: queryItems)
         
         do {
-            let fetchedCityInfo: CityInfoModel = try await service.fetchData(requestModel)
+            let fetchedCityInfo: CityInfoModel = try await service.callService(requestModel)
             await MainActor.run {
                 if let extract = fetchedCityInfo.query.pages.values.first?.extract, !extract.isEmpty {
                     self.description = extract

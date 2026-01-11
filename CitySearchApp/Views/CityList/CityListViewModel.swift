@@ -56,7 +56,7 @@ extension CityListViewModel {
         responseState = .loading
         let requestModel = RequestModel(httpMethod: .GET, endpoint: .cities(environment: .prod))
         do {
-            let fetchedCities: [CityModel] = try await service.fetchData(requestModel)
+            let fetchedCities: [CityModel] = try await service.callService(requestModel)
             let sortedCities = fetchedCities.sorted { ($0.name, $0.countryCode) < ($1.name, $1.countryCode) }
             await MainActor.run {
                 self.allCities = sortedCities

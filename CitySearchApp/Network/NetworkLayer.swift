@@ -8,12 +8,12 @@
 import Foundation
 
 protocol NetworkService {
-    func fetchData<T: Decodable>(_ requestModel: RequestModel) async throws -> T
+    func callService<T: Decodable>(_ requestModel: RequestModel) async throws -> T
 }
 
 // MARK: -
 final class NetworkLayer: NetworkService {
-    func fetchData<T: Decodable>(_ requestModel: RequestModel) async throws -> T {
+    func callService<T: Decodable>(_ requestModel: RequestModel) async throws -> T {
         var serviceURL = URLComponents(string: requestModel.urlString)
         serviceURL?.queryItems = buildQueryItems(params: requestModel.queryItems ?? [:])
         
