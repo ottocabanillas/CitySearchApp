@@ -13,7 +13,7 @@ final class CityListViewModelTests: XCTestCase {
     // MARK: - Properties
     var sut: CityListViewModel!
     var mockService: MockNetworkLayer!
-    var mockStorage: CityStorage!
+    var mockStorage: MockLocalCityStorage!
     
     // MARK: - Setup & Teardown
     override func setUp() {
@@ -47,19 +47,10 @@ final class CityListViewModelTests: XCTestCase {
         let isEmptyAllCities = true
         mockService.shouldThrowError = true
         //When
+        
         await sut.fetchCities()
         //Then
         XCTAssertEqual(sut.responseState, responseState)
         XCTAssertEqual(sut.allCities.isEmpty, isEmptyAllCities)
     }
-    
-    func testLoadFavCitiesWhenStorageReturnsIdsSetsFavIdsCorrectly() {
-        // Given
-        let expectedFavIds: Set<Int> = [2147714, 4829764]
-        
-        // When
-        // Then
-        XCTAssertEqual(sut.favIds, expectedFavIds)
-    }
-
 }

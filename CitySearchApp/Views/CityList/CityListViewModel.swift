@@ -38,8 +38,12 @@ final class CityListViewModel: ObservableObject {
         self.storage = storage
         self.service = service
         
-        loadFavCities()
+        initialLoad()
         bindDisplayedCities()
+    }
+    
+    func initialLoad() {
+        loadFavCities()
     }
 }
 
