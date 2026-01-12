@@ -12,7 +12,7 @@ import XCTest
 final class CityListViewModelTests: XCTestCase {
     // MARK: - Properties
     var sut: CityListViewModel!
-    var mockService: NetworkService!
+    var mockService: MockNetworkLayer!
     var mockStorage: CityStorage!
     
     // MARK: - Setup & Teardown
@@ -36,6 +36,18 @@ final class CityListViewModelTests: XCTestCase {
         //When
         await sut.fetchCities()
         
+        //Then
+        XCTAssertEqual(sut.responseState, responseState)
+        XCTAssertEqual(sut.allCities.isEmpty, isEmptyAllCities)
+    }
+    
+    func testFetchCitiesFailedNetworkCall() async throws {
+        //Given
+        let responseState: ResponseState = .failed
+        let isEmptyAllCities = true
+        mockService.shouldThrowError = true
+        //When
+        await sut.fetchCities()
         //Then
         XCTAssertEqual(sut.responseState, responseState)
         XCTAssertEqual(sut.allCities.isEmpty, isEmptyAllCities)

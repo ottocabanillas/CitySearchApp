@@ -10,16 +10,12 @@ import Foundation
 
 final class MockNetworkLayer: NetworkService {
     let testData: TestData
-    var shouldThrowError: Bool
-    var errorToThrow: Error
+    var shouldThrowError: Bool = false
+    var errorToThrow: Error = NetworkError.couldNotDecodeData
     
-    init(testData: TestData,
-         shouldThrowError: Bool = false,
-         errorToThrow: Error = NetworkError.couldNotDecodeData
-    ) {
+    init(testData: TestData) {
         self.testData = testData
-        self.shouldThrowError = shouldThrowError
-        self.errorToThrow = errorToThrow
+
     }
     
     func callService<T: Decodable>(_ requestModel: RequestModel) async throws -> T {
