@@ -52,4 +52,14 @@ final class CityListViewModelTests: XCTestCase {
         XCTAssertEqual(sut.responseState, responseState)
         XCTAssertEqual(sut.allCities.isEmpty, isEmptyAllCities)
     }
+    
+    func testLoadFavCitiesWhenStorageReturnsIdsSetsFavIdsCorrectly() {
+        // Given
+        let expectedFavIds: Set<Int> = [2147714, 4829764]
+        
+        // When
+        // Then
+        XCTAssertEqual(sut.favIds, expectedFavIds)
+    }
+
 }

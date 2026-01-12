@@ -16,6 +16,8 @@ final class CityListViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var showFavoritesOnly: Bool = false
     
+    private(set) var favIds: Set<Int> = []
+    
     private let service: NetworkService
     private let storage: CityStorage
     private let seacher: SearchStrategy = CityBinarySearch()
@@ -24,7 +26,6 @@ final class CityListViewModel: ObservableObject {
     
     private var favCities: [CityModel] = []
     private var indexById: [Int: Int] = [:]
-    private var favIds: Set<Int> = []
     
     private var resultCities: [CityModel] = []
     private var pageSize: Int = 50
