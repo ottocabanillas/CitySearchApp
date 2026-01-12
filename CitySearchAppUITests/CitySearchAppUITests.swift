@@ -65,4 +65,28 @@ final class CitySearchAppUITests: XCTestCase {
         XCTAssertFalse(arizonaCell)
     }
     
+    func testCityCellHasAllElements() throws {
+        //Given
+        let app = XCUIApplication()
+        app.launchArguments.append("--use-mock")
+        app.launch()
+
+        
+        //When
+        let cell = app.cells.containing(.staticText, identifier: "cityListView.cell_4829764").firstMatch
+        XCTAssertTrue(cell.exists)
+        
+        //Then
+        let title = cell.staticTexts["Alabama, US"]
+        XCTAssertTrue(title.exists)
+        
+        let subtitle = cell.staticTexts["Lat: 32.750408, Lon: -86.750259"]
+        XCTAssertTrue(subtitle.exists)
+        
+        let infoButton = cell.buttons["Info"]
+        XCTAssertTrue(infoButton.exists, "El botón de información debe estar presente en la celda")
+
+        let favoriteButton = cell.buttons["Favorite"]
+        XCTAssertTrue(favoriteButton.exists, "El botón de favorito debe estar presente en la celda")
+    }
 }

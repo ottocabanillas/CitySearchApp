@@ -35,7 +35,7 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "696466EF2F0E05860095C75A"
+               BlueprintIdentifier = "69EF67292F14329100F36874"
                BuildableName = "CitySearchAppTests.xctest"
                BlueprintName = "CitySearchAppTests"
                ReferencedContainer = "container:CitySearchApp.xcodeproj">
@@ -45,7 +45,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "696466F92F0E05860095C75A"
+               BlueprintIdentifier = "69EF67362F1432AB00F36874"
                BuildableName = "CitySearchAppUITests.xctest"
                BlueprintName = "CitySearchAppUITests"
                ReferencedContainer = "container:CitySearchApp.xcodeproj">

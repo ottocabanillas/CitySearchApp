@@ -45,6 +45,7 @@ struct CityCellView: View {
                     .foregroundColor(.blue)
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("Info")
             Button(action: onFavoriteTapped) {
                 Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
                     .resizable()
@@ -52,6 +53,7 @@ struct CityCellView: View {
                     .frame(width: 24, height: 24)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Favorite")
         }
     }
 }
