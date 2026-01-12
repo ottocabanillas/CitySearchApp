@@ -9,7 +9,7 @@ import XCTest
 
 final class CitySearchAppUITests: XCTestCase {
     
-    override func setUpWithError() throws {
+    override func setUp() {
         continueAfterFailure = false
         XCUIDevice.shared.orientation = .portrait
     }
@@ -157,11 +157,11 @@ final class CitySearchAppUITests: XCTestCase {
         //Given
         let app = XCUIApplication()
         app.launchArguments.append("--use-mock")
+        XCUIDevice.shared.orientation = .landscapeLeft
         app.launch()
 
         //When
-        XCUIDevice.shared.orientation = .landscapeLeft
-        sleep(1)
+        sleep(2)
         
         //Then
         XCTAssertTrue(app.otherElements["LANDSCAPE_VIEW"].exists)

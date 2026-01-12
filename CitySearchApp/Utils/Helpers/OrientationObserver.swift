@@ -13,11 +13,16 @@ final class OrientationObserver: ObservableObject {
     @Published var isPortrait: Bool = true
     
     //MARK: - Private Properties
-    private let screen: UIScreen? = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen
+    private let screen: UIScreen? 
     private var cancellable: AnyCancellable?
     
     //MARK: - Initialization
-    init() {
+    init(screen: UIScreen? = nil) {
+        if let screen = screen {
+            self.screen = screen
+        } else {
+            self.screen = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen
+        }
         updateOrientation()
         self.cancellable = NotificationCenter.default
             .publisher(for: UIDevice.orientationDidChangeNotification)
@@ -32,18 +37,19 @@ extension OrientationObserver {
     private func updateOrientation() {
         let orientation = UIDevice.current.orientation
         self.isPortrait = isPortrait(for: orientation)
+        print(orientation.rawValue)
     }
     
     func isPortrait(for orientation: UIDeviceOrientation) -> Bool {
         switch orientation {
         case .portrait,
-                .unknown,
-                .faceUp,
-                .faceDown:
+             .unknown,
+             .faceUp,
+             .faceDown:
             return true
         case .portraitUpsideDown,
-                .landscapeLeft,
-                .landscapeRight:
+             .landscapeLeft,
+             .landscapeRight:
             return false
         default:
             return false

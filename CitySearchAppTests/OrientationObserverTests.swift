@@ -26,12 +26,13 @@ final class OrientationObserverTests: XCTestCase {
         //Given
         //When
         //Then
-        XCTAssertTrue(sut.isPortrait(for: .portrait), "Debe ser true para .portrait")
-        XCTAssertTrue(sut.isPortrait(for: .unknown), "Debe ser true para .unknown")
-        XCTAssertTrue(sut.isPortrait(for: .faceUp), "Debe ser false para .faceUp")
-        XCTAssertTrue(sut.isPortrait(for: .faceDown), "Debe ser false para .faceDown")
-        XCTAssertFalse(sut.isPortrait(for: .landscapeLeft), "Debe ser false para .landscapeLeft")
-        XCTAssertFalse(sut.isPortrait(for: .landscapeRight), "Debe ser false para .landscapeRight")
-        XCTAssertFalse(sut.isPortrait(for: .portraitUpsideDown), "Debe ser false para .portraitUpsideDown")
+        XCTAssertTrue(sut.isPortrait(for: .portrait))
+        XCTAssertTrue(sut.isPortrait(for: .unknown))
+        XCTAssertTrue(sut.isPortrait(for: .faceUp))
+        XCTAssertTrue(sut.isPortrait(for: .faceDown))
+        XCTAssertFalse(sut.isPortrait(for: .landscapeLeft))
+        XCTAssertFalse(sut.isPortrait(for: .landscapeRight))
+        XCTAssertFalse(sut.isPortrait(for: .portraitUpsideDown))
+        
     }
 }
