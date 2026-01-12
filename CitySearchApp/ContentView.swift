@@ -47,6 +47,7 @@ struct ContentView: View {
                 selectMapView
             }
         }
+        .accessibilityIdentifier("LANDSCAPE_VIEW")
         .background(Color(.black))
     }
     

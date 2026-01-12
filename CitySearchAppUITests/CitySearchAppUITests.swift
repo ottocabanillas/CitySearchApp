@@ -89,4 +89,18 @@ final class CitySearchAppUITests: XCTestCase {
         let favoriteButton = cell.buttons["Favorite"]
         XCTAssertTrue(favoriteButton.exists, "El botón de favorito debe estar presente en la celda")
     }
+    
+    func testLandscapeShowsCombinedLayout() throws {
+        //Given
+        let app = XCUIApplication()
+        app.launchArguments.append("--use-mock")
+        app.launch()
+
+        //When
+        XCUIDevice.shared.orientation = .landscapeLeft
+        sleep(1)
+        
+        //Then
+        XCTAssertTrue(app.otherElements["LANDSCAPE_VIEW"].exists)
+    }
 }
