@@ -157,9 +157,8 @@ final class CitySearchAppUITests: XCTestCase {
         //Given
         let app = XCUIApplication()
         app.launchArguments.append("--use-mock")
-        XCUIDevice.shared.orientation = .landscapeLeft
         app.launch()
-
+        XCUIDevice.shared.orientation = .landscapeLeft
         //When
         sleep(2)
         

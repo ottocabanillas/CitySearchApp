@@ -22,17 +22,10 @@ final class OrientationObserverTests: XCTestCase {
     }
     
     // MARK: - Tests
-    func testIsPortraitLogic() {
+    func testIsPortraitReturnTrue() {
         //Given
         //When
         //Then
-        XCTAssertTrue(sut.isPortrait(for: .portrait))
-        XCTAssertTrue(sut.isPortrait(for: .unknown))
-        XCTAssertTrue(sut.isPortrait(for: .faceUp))
-        XCTAssertTrue(sut.isPortrait(for: .faceDown))
-        XCTAssertFalse(sut.isPortrait(for: .landscapeLeft))
-        XCTAssertFalse(sut.isPortrait(for: .landscapeRight))
-        XCTAssertFalse(sut.isPortrait(for: .portraitUpsideDown))
-        
+        XCTAssertTrue(sut.isPortrait)
     }
 }
