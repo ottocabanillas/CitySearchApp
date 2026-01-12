@@ -1,5 +1,5 @@
 //
-//  CityListViewModelTests.swift
+//  CityListViewModelNetworkTests.swift
 //  CitySearchAppTests
 //
 //  Created by Oscar Cabanillas on 10/01/2026.
@@ -9,7 +9,7 @@ import XCTest
 @testable import CitySearchApp
 
 @MainActor
-final class CityListViewModelTests: XCTestCase {
+final class CityListViewModelNetworkTests: XCTestCase {
     // MARK: - Properties
     var sut: CityListViewModel!
     var mockService: MockNetworkLayer!
