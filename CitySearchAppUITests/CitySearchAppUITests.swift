@@ -9,6 +9,11 @@ import XCTest
 
 final class CitySearchAppUITests: XCTestCase {
     
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        XCUIDevice.shared.orientation = .portrait
+    }
+    
     @MainActor
     func testDynamicSearchUpdatesList() throws {
         //Given
@@ -88,6 +93,20 @@ final class CitySearchAppUITests: XCTestCase {
 
         let favoriteButton = cell.buttons["Favorite"]
         XCTAssertTrue(favoriteButton.exists, "El botón de favorito debe estar presente en la celda")
+    }
+    
+    func testPortraitShowsSeparateScreens() throws {
+        //Given
+        let app = XCUIApplication()
+        app.launchArguments.append("--use-mock")
+        app.launch()
+
+        //When
+        sleep(1)
+        
+        //Then
+        XCTAssertTrue(app.otherElements["PORTRAIT_VIEW"].exists)
+        XCTAssertFalse(app.otherElements["LANDSCAPE_VIEW"].exists)
     }
     
     func testLandscapeShowsCombinedLayout() throws {

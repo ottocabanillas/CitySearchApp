@@ -31,6 +31,7 @@ struct ContentView: View {
                 MapView(viewModel: MapViewModel(city: city))
             }
         }
+        .accessibilityIdentifier("PORTRAIT_VIEW")
     }
     
     private var landscapeView: some View {
