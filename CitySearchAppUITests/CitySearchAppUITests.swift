@@ -14,6 +14,31 @@ final class CitySearchAppUITests: XCTestCase {
         XCUIDevice.shared.orientation = .portrait
     }
     
+    func testCityCellHasAllElements() throws {
+        //Given
+        let app = XCUIApplication()
+        app.launchArguments.append("--use-mock")
+        app.launch()
+
+        
+        //When
+        let cell = app.cells.containing(.staticText, identifier: "cityListView.cell_4829764").firstMatch
+        XCTAssertTrue(cell.exists)
+        
+        //Then
+        let title = cell.staticTexts["Alabama, US"]
+        XCTAssertTrue(title.exists)
+        
+        let subtitle = cell.staticTexts["Lat: 32.750408, Lon: -86.750259"]
+        XCTAssertTrue(subtitle.exists)
+        
+        let infoButton = cell.buttons["Info"]
+        XCTAssertTrue(infoButton.exists, "El botón de información debe estar presente en la celda")
+
+        let favoriteButton = cell.buttons["Favorite"]
+        XCTAssertTrue(favoriteButton.exists, "El botón de favorito debe estar presente en la celda")
+    }
+    
     func testDynamicSearchUpdatesList() throws {
         //Given
         let app = XCUIApplication()
@@ -96,29 +121,22 @@ final class CitySearchAppUITests: XCTestCase {
         XCTAssertFalse(arizonaCell)
     }
     
-    func testCityCellHasAllElements() throws {
+    func testNavigationToMapAndDetail() throws {
         //Given
         let app = XCUIApplication()
         app.launchArguments.append("--use-mock")
         app.launch()
-
         
         //When
-        let cell = app.cells.containing(.staticText, identifier: "cityListView.cell_4829764").firstMatch
-        XCTAssertTrue(cell.exists)
+        sleep(1)
+        app.cells/*@START_MENU_TOKEN@*/.containing(.staticText, identifier: "cityListView.cell_4829764").firstMatch/*[[".element(boundBy: 0)",".containing(.button, identifier: \"cityListView.cell_4829764\").firstMatch",".containing(.staticText, identifier: \"cityListView.cell_4829764\").firstMatch"],[[[-1,2],[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         
         //Then
-        let title = cell.staticTexts["Alabama, US"]
-        XCTAssertTrue(title.exists)
-        
-        let subtitle = cell.staticTexts["Lat: 32.750408, Lon: -86.750259"]
-        XCTAssertTrue(subtitle.exists)
-        
-        let infoButton = cell.buttons["Info"]
-        XCTAssertTrue(infoButton.exists, "El botón de información debe estar presente en la celda")
-
-        let favoriteButton = cell.buttons["Favorite"]
-        XCTAssertTrue(favoriteButton.exists, "El botón de favorito debe estar presente en la celda")
+        XCTAssertTrue(app/*@START_MENU_TOKEN@*/.otherElements["Alabama"]/*[[".otherElements.otherElements[\"Alabama\"]",".otherElements[\"Alabama\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.firstMatch.exists)
+        app/*@START_MENU_TOKEN@*/.buttons["BackButton"]/*[[".navigationBars",".buttons[\"Back\"]",".buttons[\"BackButton\"]",".buttons"],[[[-1,2],[-1,1],[-1,3],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.firstMatch.tap()
+        app.buttons.matching(identifier: "cityListView.cell_4829764").element(boundBy: 0).tap()
+        app/*@START_MENU_TOKEN@*/.staticTexts["Alabama, United States"]/*[[".otherElements.staticTexts[\"Alabama, United States\"]",".staticTexts",".staticTexts[\"Alabama, United States\"]"],[[[-1,2],[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.firstMatch.tap()
+        XCTAssertTrue(app/*@START_MENU_TOKEN@*/.staticTexts["Alabama, United States"]/*[[".otherElements.staticTexts[\"Alabama, United States\"]",".staticTexts",".staticTexts[\"Alabama, United States\"]"],[[[-1,2],[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.firstMatch.exists)
     }
     
     func testPortraitShowsSeparateScreens() throws {
