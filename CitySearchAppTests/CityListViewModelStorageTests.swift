@@ -37,5 +37,17 @@ final class CityListViewModelStorageTests: XCTestCase {
         // Then
         XCTAssertEqual(sut.favIds, expectedFavIds)
     }
-
+    
+    func testLoadFavCitiesWhenStorageThrowsErrorFavIdsRemainsEmpty() {
+        // Given
+        let expectedFavIds: Set<Int> = []
+        
+        // When
+        mockStorage.shouldThrowErrorOnLoad = true
+        sut = CityListViewModel(service: mockService, storage: mockStorage)
+        
+        // Then
+        XCTAssertEqual(sut.favIds, expectedFavIds)
+    }
+    
 }
