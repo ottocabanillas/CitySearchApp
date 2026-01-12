@@ -40,14 +40,6 @@ final class CityListViewModel: ObservableObject {
         loadFavCities()
         bindDisplayedCities()
     }
-    
-    //MARK: - Initialization Method
-//    static func buildViewModel() -> CityListViewModel {
-//        CityListViewModel(
-//            service: NetworkLayer(),
-//            storage: LocalCityStorage()
-//        )
-//    }
 }
 
 //MARK: - Network Methods

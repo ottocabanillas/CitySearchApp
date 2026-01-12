@@ -27,4 +27,17 @@ final class CityListViewModelTests: XCTestCase {
         mockService = nil
         mockStorage = nil
     }
+    
+    func testFetchCitiesSuccessfulNetworkCallUpdatesCitiesList() async throws {
+        //Given
+        let responseState: ResponseState = .loaded
+        let isEmptyAllCities = false
+        
+        //When
+        await sut.fetchCities()
+        
+        //Then
+        XCTAssertEqual(sut.responseState, responseState)
+        XCTAssertEqual(sut.allCities.isEmpty, isEmptyAllCities)
+    }
 }
