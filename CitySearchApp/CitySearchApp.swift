@@ -9,20 +9,19 @@ import SwiftUI
 
 @main
 struct CitySearchApp: App {
-    //MARK: - Body
+    //MARK: - Properties
     private let cityListViewModel: CityListViewModel
     private let cityDetailService: NetworkService
     
+    //MARK: - Initialization
     init() {
-        let useMock = ProcessInfo.processInfo.arguments.contains("--use-mock")
-        
-        let cityListService: NetworkService = true ? MockNetworkLayer(testData: .cities) : NetworkLayer()
-        let storage: CityStorage = true ? MockLocalCityStorage() : LocalCityStorage()
-        self.cityListViewModel = .init(service: cityListService, storage: storage)
-        
-        self.cityDetailService = true ? MockNetworkLayer(testData: .infoCity) : NetworkLayer()
+        let storage = Self.makeCityStorage()
+        let networkService = Self.makeCityListService()
+        self.cityListViewModel = CityListViewModel(service: networkService, storage: storage)
+        self.cityDetailService = Self.makeCityDetailService()
     }
     
+    //MARK: - Scene
     var body: some Scene {
         WindowGroup {
             ContentView(
@@ -30,5 +29,32 @@ struct CitySearchApp: App {
                 cityDetailService: cityDetailService
             )
         }
+    }
+}
+
+//MARK: - Private Methods
+private extension CitySearchApp {
+    
+    static func makeCityStorage() -> CityStorage {
+        let useMock = ProcessInfo.processInfo.arguments.contains("--use-mock")
+        return useMock ? MockLocalCityStorage() : LocalCityStorage()
+    }
+
+    static func makeCityListService() -> NetworkService {
+        let useMock = ProcessInfo.processInfo.arguments.contains("--use-mock")
+        let serviceFailed = ProcessInfo.processInfo.arguments.contains("--service-failed")
+        
+        if useMock {
+            let mock = MockNetworkLayer(testData: .cities)
+            mock.shouldThrowError = serviceFailed
+            return mock
+        }
+        
+        return NetworkLayer()
+    }
+
+    static func makeCityDetailService() -> NetworkService {
+        let useMock = ProcessInfo.processInfo.arguments.contains("--use-mock")
+        return useMock ? MockNetworkLayer(testData: .infoCity) : NetworkLayer()
     }
 }
