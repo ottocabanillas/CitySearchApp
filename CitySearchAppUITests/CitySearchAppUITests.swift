@@ -19,7 +19,7 @@ final class CitySearchAppUITests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments.append("--use-mock")
         app.launch()
-
+        
         
         //When
         let cell = app.cells.containing(.staticText, identifier: "cityListView.cell_4829764").firstMatch
@@ -34,7 +34,7 @@ final class CitySearchAppUITests: XCTestCase {
         
         let infoButton = cell.buttons["Info"]
         XCTAssertTrue(infoButton.exists, "El botón de información debe estar presente en la celda")
-
+        
         let favoriteButton = cell.buttons["Favorite"]
         XCTAssertTrue(favoriteButton.exists, "El botón de favorito debe estar presente en la celda")
     }
@@ -97,6 +97,21 @@ final class CitySearchAppUITests: XCTestCase {
         XCTAssertFalse(anaheimCell.exists)
         XCTAssertFalse(arizonaCell.exists)
         XCTAssertFalse(sydneyCell.exists)
+    }
+    
+    func testShowsFetchFailedView_WhenNetworkErrorOccurs() throws {
+        //Given
+        let app = XCUIApplication()
+        app.launchArguments.append("--use-mock")
+        app.launchArguments.append("--service-failed")
+        app.launch()
+        
+        //When
+        sleep(1)
+        let fetchFailedView = app/*@START_MENU_TOKEN@*/.staticTexts["cityListView.fetchFailedView"]/*[[".otherElements",".staticTexts[\"Oops! Something went wrong 😞\"]",".staticTexts[\"cityListView.fetchFailedView\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.firstMatch
+        
+        //Then
+        XCTAssertTrue(fetchFailedView.exists)
     }
     
     func testFavoritesFilterFlow() throws {
@@ -175,7 +190,7 @@ final class CitySearchAppUITests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments.append("--use-mock")
         app.launch()
-
+        
         //When
         sleep(1)
         

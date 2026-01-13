@@ -32,6 +32,7 @@ struct CityListView: View {
                     contentListView
                 case .failed:
                     FetchFailedView(action: viewModel.fetchCities)
+                        .accessibilityIdentifier("cityListView.fetchFailedView")
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
