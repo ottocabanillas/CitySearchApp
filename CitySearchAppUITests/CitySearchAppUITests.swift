@@ -68,6 +68,37 @@ final class CitySearchAppUITests: XCTestCase {
         XCTAssertFalse(sydneyCell)
     }
     
+    func testShowsEmptyListViewWhenSearchHasNoMatches() throws {
+        //Given
+        let app = XCUIApplication()
+        app.launchArguments.append("--use-mock")
+        app.launch()
+        
+        //When
+        let searchField = app.searchFields["Search for a city"]
+        XCTAssertTrue(searchField.exists)
+        searchField.tap()
+        searchField.typeText("Aaaa")
+        
+        //Then
+        sleep(1)
+        
+        let emptyListLabel = app/*@START_MENU_TOKEN@*/.staticTexts["cityListView.emptyListView"]/*[[".otherElements",".staticTexts[\"No matches found\"]",".staticTexts[\"cityListView.emptyListView\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.firstMatch
+        XCTAssertTrue(emptyListLabel.exists)
+        
+        let alabamaCell = app.cells.containing(.staticText, identifier: "cityListView.cell_4829764").firstMatch
+        let albuquerqueCell = app.cells.containing(.staticText, identifier: "cityListView.cell_5454711").firstMatch
+        let anaheimCell = app.cells.containing(.staticText, identifier: "cityListView.cell_5323810").firstMatch
+        let arizonaCell = app.cells.containing(.staticText, identifier: "cityListView.cell_5551752").firstMatch
+        let sydneyCell = app.cells.containing(.staticText, identifier: "cityListView.cell_2147714").firstMatch
+        
+        XCTAssertFalse(alabamaCell.exists)
+        XCTAssertFalse(albuquerqueCell.exists)
+        XCTAssertFalse(anaheimCell.exists)
+        XCTAssertFalse(arizonaCell.exists)
+        XCTAssertFalse(sydneyCell.exists)
+    }
+    
     func testFavoritesFilterFlow() throws {
         //Given
         let app = XCUIApplication()

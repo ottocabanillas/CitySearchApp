@@ -91,6 +91,7 @@ struct CityListView: View {
                 .foregroundColor(.gray)
             Spacer()
         }
+        .accessibilityIdentifier("cityListView.emptyListView")
     }
 }
 
