@@ -318,6 +318,65 @@ Se considera coincidencia cuando el texto ingresado por el usuario coincide con 
 
 ## 12. Estructura del proyecto
 
+```
+CitySearchApp/
+├── CitySearchApp.swift
+├── ContentView.swift
+├── Models/
+│   ├── CityModel.swift
+│   ├── CityInfoModel.swift
+├── Network/
+│   ├── NetworkLayer.swift
+│   ├── NetworkError.swift
+│   ├── RequestModel.swift
+├── Storage/
+│   └── LocalCityStorage.swift
+├── SearchStrategy/
+│   └── CityBinarySearch.swift
+├── Views/
+│   ├── CityList/
+│   │   ├── CityListView.swift
+│   │   ├── CityListViewModel.swift
+│   │   └── Cell/
+│   │       ├── CityCellView.swift
+│   │       └── CityCellViewModel.swift
+│   ├── CityDetail/
+│   │   ├── CityDetailView.swift
+│   │   └── CityDetailViewModel.swift
+│   ├── Map/
+│   │   ├── MapView.swift
+│   │   └── MapViewModel.swift
+│   └── Components/
+│       ├── FetchFailedView.swift
+│       └── JustifiedScrollText.swift
+├── Utils/
+│   ├── Enums/
+│   │   └── ResponseState.swift
+│   ├── Extensions/
+│   │   └── String+Extension.swift
+│   ├── Helpers/
+│   │    └── OrientationObserver.swift
+│   └── en.lproj/
+│       └── Localizable.strings
+└── Assets.xcassets/
+    └── ...
+
+CitySearchApp.xcodeproj/
+└── ...
+
+CitySearchAppTests/
+├── CityListViewModelNetworkTests.swift
+├── CityListViewModelStorageTests.swift
+└── Mocks/
+    ├── MockNetworkLayer.swift
+    └── MockLocalCityStorage.swift
+
+CitySearchAppUITests/
+└── CitySearchAppUITests.swift
+
+README.md
+```
+
 ---
 
 ## 13. Testing
