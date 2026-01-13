@@ -10,18 +10,25 @@ import SwiftUI
 @main
 struct CitySearchApp: App {
     //MARK: - Body
-    @StateObject private var cityLitViewModel: CityListViewModel
+    private let cityListViewModel: CityListViewModel
+    private let cityDetailService: NetworkService
     
     init() {
         let useMock = ProcessInfo.processInfo.arguments.contains("--use-mock")
-        let network: NetworkService = useMock ? MockNetworkLayer(testData: .cities) : NetworkLayer()
-        let storage: CityStorage = useMock ? MockLocalCityStorage() : LocalCityStorage()
-        _cityLitViewModel = StateObject(wrappedValue: CityListViewModel(service: network, storage: storage))
+        
+        let cityListService: NetworkService = true ? MockNetworkLayer(testData: .cities) : NetworkLayer()
+        let storage: CityStorage = true ? MockLocalCityStorage() : LocalCityStorage()
+        self.cityListViewModel = .init(service: cityListService, storage: storage)
+        
+        self.cityDetailService = true ? MockNetworkLayer(testData: .infoCity) : NetworkLayer()
     }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(cityLitViewModel)
+            ContentView(
+                cityListViewModel: cityListViewModel,
+                cityDetailService: cityDetailService
+            )
         }
     }
 }

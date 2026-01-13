@@ -9,8 +9,10 @@ import SwiftUI
 
 struct CityListView: View {
     //MARK: - Properties
-    @EnvironmentObject private var viewModel: CityListViewModel
+    @ObservedObject var viewModel: CityListViewModel
     @State private var selectedCityForDetails: CityModel? = nil
+    let cityDetailService: NetworkService
+    
     var onSelectedCity: ((CityModel) -> Void)? = nil
     
     //MARK: - Body
@@ -45,7 +47,7 @@ struct CityListView: View {
             prompt: "SEARCH_PLACEHOLDER"
         )
         .navigationDestination(item: $selectedCityForDetails) { city in
-            CityDetailView(viewModel: .init(city: city))
+            CityDetailView(viewModel: .init(city: city, service: cityDetailService))
         }
     }
     
@@ -93,8 +95,9 @@ struct CityListView: View {
 }
 
 #Preview {
+    let service = NetworkLayer()
+    let storage = LocalCityStorage()
     NavigationStack {
-        CityListView()
-            .environmentObject(CityListViewModel(service: NetworkLayer(), storage: LocalCityStorage()))
+        CityListView(viewModel: .init(service: service, storage: storage), cityDetailService: service)
     }
 }

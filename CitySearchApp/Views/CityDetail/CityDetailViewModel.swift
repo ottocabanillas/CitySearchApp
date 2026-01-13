@@ -25,7 +25,7 @@ final class CityDetailViewModel: ObservableObject {
     }
     
     //MARK: - Initialization
-    init(city: CityModel, service: NetworkService = NetworkLayer() ) {
+    init(city: CityModel, service: NetworkService) {
         self.city = city
         self.service = service
     }

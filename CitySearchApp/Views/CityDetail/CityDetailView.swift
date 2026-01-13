@@ -43,6 +43,6 @@ struct CityDetailView: View {
 
 #Preview {
     let city = CityModel(id: 1, name: "New York", countryCode: "US", coordinates: Coordinates(lat: 40.7128, lon: -74.0060), isFavorite: false)
-    
-    CityDetailView(viewModel: .init(city: city))
+    let service = NetworkLayer()
+    CityDetailView(viewModel: .init(city: city, service: service))
 }

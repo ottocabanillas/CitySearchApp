@@ -11,6 +11,8 @@ struct ContentView: View {
     //MARK: - Properties
     @StateObject private var orientationObserver: OrientationObserver = OrientationObserver()
     @State private var selectedCity: CityModel? = nil
+    let cityListViewModel: CityListViewModel
+    let cityDetailService: NetworkService
     
     //MARK: - Body
     var body: some View {
@@ -24,9 +26,11 @@ struct ContentView: View {
     //MARK: - Private Views
     private var portraitView: some View {
         NavigationStack {
-            CityListView(onSelectedCity: { city in
-                selectedCity = city
-            })
+            CityListView(
+                viewModel: cityListViewModel,
+                cityDetailService: cityDetailService, onSelectedCity: { city in
+                    selectedCity = city
+                })
             .navigationDestination(item: $selectedCity) { city in
                 MapView(viewModel: MapViewModel(city: city))
             }
@@ -37,9 +41,12 @@ struct ContentView: View {
     private var landscapeView: some View {
         HStack {
             NavigationStack {
-                CityListView(onSelectedCity: { city in
-                    selectedCity = city
-                })
+                CityListView(
+                    viewModel: cityListViewModel,
+                    cityDetailService: cityDetailService,
+                    onSelectedCity: { city in
+                        selectedCity = city
+                    })
             }
             if let city = selectedCity {
                 MapView(viewModel: .init(city: city))
@@ -63,6 +70,8 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
-        .environmentObject(CityListViewModel(service: NetworkLayer(), storage: LocalCityStorage()))
+    let service = NetworkLayer()
+    let storage = LocalCityStorage()
+    
+    ContentView(cityListViewModel: .init(service: service, storage: storage), cityDetailService: service)
 }
