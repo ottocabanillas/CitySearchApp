@@ -11,6 +11,9 @@ final class CitySearchAppUITests: XCTestCase {
     
     override func setUp() {
         continueAfterFailure = false
+    }
+    
+    override func tearDown() {
         XCUIDevice.shared.orientation = .portrait
     }
     
