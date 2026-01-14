@@ -54,13 +54,32 @@ final class CityListViewModelStorageTests: XCTestCase {
         // Given
         let expectedFavIds = [2147714, 4829764, 5551752]
         let city = CityModel(id: 5551752, name: "Arizona", countryCode: "US", coordinates: .init(lat: 34.500301, lon: -111.500977))
+        
         // When
         sut = CityListViewModel(service: mockService, storage: mockStorage)
         await sut.fetchCities()
         sut.toggleFavorite(for: city)
+        
         // Then
         let savedFavIds = sut.favIds.sorted()
         
         XCTAssertEqual(savedFavIds, expectedFavIds)
+    }
+    
+    func testSaveFavCitiesWhenStorageThrowsError() async throws {
+        // Given
+        let expectedFavIds = [2147714, 4829764]
+        let city = CityModel(id: 5551752, name: "Arizona", countryCode: "US", coordinates: .init(lat: 34.500301, lon: -111.500977))
+        
+        // When
+        mockStorage.shouldThrowErrorOnSave = true
+        sut = CityListViewModel(service: mockService, storage: mockStorage)
+        await sut.fetchCities()
+        sut.toggleFavorite(for: city)
+        
+        // Then
+        let currentFavIds = sut.favIds.sorted()
+        
+        XCTAssertEqual(currentFavIds, expectedFavIds)
     }
 }
