@@ -77,8 +77,7 @@ extension CityListViewModel {
     func toggleFavorite(for city: CityModel) {
         guard let index = indexById[city.id] else { return }
         allCities[index].isFavorite.toggle()
-        updateFavoriteCollections(city: city, index: index)
-        saveFavCities()
+        saveFavCities(city: city, index: index)
     }
     
     private func updateFavoriteCollections(city: CityModel, index: Int) {
@@ -180,10 +179,15 @@ extension CityListViewModel {
         }
     }
     
-    private func saveFavCities() {
+    private func saveFavCities(city: CityModel, index: Int) {
+        let currentFavIds = favIds
+        let currentFavCities = favCities
+        updateFavoriteCollections(city: city, index: index)
         do {
             try storage.save(favIds)
         } catch {
+            favIds = currentFavIds
+            favCities = currentFavCities
             print("Failed to save favorite cities:", error)
         }
     }
