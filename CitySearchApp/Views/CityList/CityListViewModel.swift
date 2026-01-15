@@ -8,6 +8,7 @@
 import Combine
 import SwiftUI
 
+@MainActor
 final class CityListViewModel: ObservableObject {
     //MARK: - Properties
     @Published private(set) var displayedCities: [CityModel] = []
@@ -122,7 +123,7 @@ extension CityListViewModel {
     
     private func bindDisplayedCities() {
         Publishers.CombineLatest3($searchText, $showFavoritesOnly, $allCities)
-            .debounce(for: .milliseconds(150), scheduler: DispatchQueue.global(qos: .userInitiated))
+            .debounce(for: .milliseconds(150), scheduler: DispatchQueue.main)
             .map { [weak self] (text, favOnly, cities) -> [CityModel] in
                 guard let self = self else { return [] }
                 return self.resultDisplayed(allCities: cities, searchText: text, favoritesOnly: favOnly)
