@@ -51,6 +51,31 @@ final class CityListViewModelSearchTests: XCTestCase {
 
     }
     
+    func testSearchResultsReturnsCitiesStartingWithAl() async throws {
+        // Given
+        let expectedNames: Set<String> = ["Alabama", "Albuquerque"]
+        let timeout: TimeInterval = 2.0
+        let start = Date()
+        var resultNames: Set<String> = []
+        
+        // When
+        await sut.fetchCities()
+        sut.searchText = "Al"
+        
+        while Date().timeIntervalSince(start) < timeout {
+            resultNames = Set(sut.displayedCities.map { $0.name })
+            if resultNames == expectedNames { break }
+            try await Task.sleep(nanoseconds: 100_000_000)
+        }
+        
+        // Then
+        XCTAssertEqual(resultNames, expectedNames)
+        XCTAssertFalse(resultNames.contains("Anaheim"))
+        XCTAssertFalse(resultNames.contains("Arizona"))
+        XCTAssertFalse(resultNames.contains("Sydney"))
+
+    }
+    
     func testSearchResultsReturnsCitiesStartingWithS() async throws {
         // Given
         let expectedNames: Set<String> = ["Sydney"]
