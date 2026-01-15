@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Combine
 @testable import CitySearchApp
 
 @MainActor
@@ -31,67 +32,73 @@ final class CityListViewModelSearchTests: XCTestCase {
     func testSearchResultsReturnsCitiesStartingWithA() async throws {
         // Given
         let expectedNames: Set<String> = ["Alabama", "Anaheim", "Albuquerque", "Arizona"]
-        let timeout: TimeInterval = 2.0
-        let start = Date()
         var resultNames: Set<String> = []
-        
+        let expectation = XCTestExpectation(description: "displayedCities updated")
+        let cancellable = sut.$displayedCities
+                .receive(on: DispatchQueue.main)
+                .sink { cities in
+                    resultNames = Set(cities.map { $0.name })
+                    if resultNames == expectedNames {
+                        expectation.fulfill()
+                    }
+                }
         // When
         await sut.fetchCities()
         sut.searchText = "A"
-        
-        while Date().timeIntervalSince(start) < timeout {
-            resultNames = Set(sut.displayedCities.map { $0.name })
-            if resultNames == expectedNames { break }
-            try await Task.sleep(nanoseconds: 100_000_000)
-        }
+        await fulfillment(of: [expectation], timeout: 2.0)
         
         // Then
         XCTAssertEqual(resultNames, expectedNames)
         XCTAssertFalse(resultNames.contains("Sydney"))
+        cancellable.cancel()
 
     }
     
     func testSearchResultsReturnsCitiesStartingWithAl() async throws {
         // Given
         let expectedNames: Set<String> = ["Alabama", "Albuquerque"]
-        let timeout: TimeInterval = 2.0
-        let start = Date()
         var resultNames: Set<String> = []
+        let expectation = XCTestExpectation(description: "displayedCities updated")
+        let cancellable = sut.$displayedCities
+                .receive(on: DispatchQueue.main)
+                .sink { cities in
+                    resultNames = Set(cities.map { $0.name })
+                    if resultNames == expectedNames {
+                        expectation.fulfill()
+                    }
+                }
         
         // When
         await sut.fetchCities()
         sut.searchText = "Al"
-        
-        while Date().timeIntervalSince(start) < timeout {
-            resultNames = Set(sut.displayedCities.map { $0.name })
-            if resultNames == expectedNames { break }
-            try await Task.sleep(nanoseconds: 100_000_000)
-        }
+        await fulfillment(of: [expectation], timeout: 2.0)
         
         // Then
         XCTAssertEqual(resultNames, expectedNames)
         XCTAssertFalse(resultNames.contains("Anaheim"))
         XCTAssertFalse(resultNames.contains("Arizona"))
         XCTAssertFalse(resultNames.contains("Sydney"))
-
+        cancellable.cancel()
     }
     
     func testSearchResultsReturnsCitiesStartingWithS() async throws {
         // Given
         let expectedNames: Set<String> = ["Sydney"]
-        let timeout: TimeInterval = 2.0
-        let start = Date()
         var resultNames: Set<String> = []
+        let expectation = XCTestExpectation(description: "displayedCities updated")
+        let cancellable = sut.$displayedCities
+                .receive(on: DispatchQueue.main)
+                .sink { cities in
+                    resultNames = Set(cities.map { $0.name })
+                    if resultNames == expectedNames {
+                        expectation.fulfill()
+                    }
+                }
         
         // When
         await sut.fetchCities()
         sut.searchText = "S"
-        
-        while Date().timeIntervalSince(start) < timeout {
-            resultNames = Set(sut.displayedCities.map { $0.name })
-            if resultNames == expectedNames { break }
-            try await Task.sleep(nanoseconds: 100_000_000)
-        }
+        await fulfillment(of: [expectation], timeout: 2.0)
         
         // Then
         XCTAssertEqual(resultNames, expectedNames)
@@ -99,5 +106,6 @@ final class CityListViewModelSearchTests: XCTestCase {
         XCTAssertFalse(resultNames.contains("Anaheim"))
         XCTAssertFalse(resultNames.contains("Albuquerque"))
         XCTAssertFalse(resultNames.contains("Arizona"))
+        cancellable.cancel()
     }
 }
