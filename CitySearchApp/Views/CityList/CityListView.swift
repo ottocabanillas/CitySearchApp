@@ -17,12 +17,15 @@ struct CityListView: View {
     
     //MARK: - Body
     var body: some View {
-        VStack() {
+        VStack(spacing: 0) {
             VStack {
                 Toggle("FAVORITE_TOGGLE_BUTTON", isOn: $viewModel.showFavoritesOnly)
-                    .padding()
+                    .padding(16)
+                    .background(Color(.systemGray3))
             }
-            .background(Color(.systemGray3))
+            
+            .padding(.top, 10)
+            .background(Color(.systemGray5))
             VStack {
                 switch viewModel.responseState {
                 case .loading:
@@ -37,6 +40,7 @@ struct CityListView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+
         .task {
             if viewModel.allCities.isEmpty {
                 await viewModel.fetchCities()
