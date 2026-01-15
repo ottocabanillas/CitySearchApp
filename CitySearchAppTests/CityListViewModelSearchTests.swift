@@ -136,4 +136,33 @@ final class CityListViewModelSearchTests: XCTestCase {
         XCTAssertFalse(resultNames.contains("Arizona"))
         cancellable.cancel()
     }
+    
+    func testSearchResultsReturnsEmptyWhenNoMatches() async throws {
+        // Given
+        let expectedNames: Set<String> = []
+        var resultNames: Set<String> = []
+        let expectation = XCTestExpectation(description: "displayedCities updated")
+        let cancellable = sut.$displayedCities
+                .receive(on: DispatchQueue.main)
+                .sink { cities in
+                    resultNames = Set(cities.map { $0.name })
+                    if resultNames == expectedNames {
+                        expectation.fulfill()
+                    }
+                }
+        
+        // When
+        await sut.fetchCities()
+        sut.searchText = "Aaa"
+        await fulfillment(of: [expectation], timeout: 2.0)
+        
+        // Then
+        XCTAssertEqual(resultNames, expectedNames)
+        XCTAssertFalse(resultNames.contains("Alabama"))
+        XCTAssertFalse(resultNames.contains("Anaheim"))
+        XCTAssertFalse(resultNames.contains("Albuquerque"))
+        XCTAssertFalse(resultNames.contains("Arizona"))
+        XCTAssertFalse(resultNames.contains("Sydney"))
+        cancellable.cancel()
+    }
 }
